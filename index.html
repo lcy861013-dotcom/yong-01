@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FITME — 나만의 완벽한 비율 측정 도구 / Proportional Fit Guide</title>
-<meta name="description" content="키보다 중요한 비율을 찾는 디테일한 신체 측정 도구. 스마트폰을 활용한 간편한 측정 가이드를 제공합니다.">
+<title>FITME — 나만의 완벽한 비율 측정 및 체형 분석</title>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -42,48 +41,21 @@
     z-index: 1000;
   }
 
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .logo span { color: var(--text); }
-
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; color: var(--accent); text-decoration: none; }
   nav { display: flex; gap: 24px; }
   nav a { color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.3s; }
-  nav a:hover { color: var(--accent); }
-
-  .header-right { display: flex; align-items: center; gap: 20px; }
   .lang-toggle { display: flex; background: var(--card); border: 1px solid var(--border); border-radius: 100px; padding: 3px; }
   .lang-btn { padding: 4px 12px; border-radius: 100px; border: none; background: transparent; color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer; }
   .lang-btn.active { background: var(--accent); color: var(--bg); }
 
   /* MAIN LAYOUT */
-  .main-container {
-    display: grid;
-    grid-template-columns: 1fr 450px;
-    min-height: calc(100vh - 73px);
-    border-bottom: 1px solid var(--border);
-  }
+  .main-container { display: grid; grid-template-columns: 1fr 450px; min-height: calc(100vh - 73px); border-bottom: 1px solid var(--border); }
 
   /* LEFT: VISUALIZER */
-  .visualizer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px;
-    background: radial-gradient(circle at center, #111 0%, #050505 100%);
-    position: relative;
-    border-right: 1px solid var(--border);
-  }
-
+  .visualizer { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; background: radial-gradient(circle at center, #111 0%, #050505 100%); position: relative; border-right: 1px solid var(--border); }
   .hero-text { position: absolute; top: 60px; left: 60px; max-width: 450px; }
   .hero-text h1 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; margin-bottom: 12px; color: var(--accent); }
   .hero-text p { font-size: 14px; color: var(--muted); }
-
   .body-box { position: relative; width: 300px; height: 520px; margin-top: 40px; }
   .body-svg { width: 100%; height: 100%; opacity: 0.9; }
 
@@ -91,70 +63,49 @@
     position: absolute; width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--accent);
     background: rgba(var(--accent-rgb), 0.05); color: var(--accent); font-family: 'Bebas Neue', sans-serif;
     font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transform: translate(-50%, -50%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10;
+    transform: translate(-50%, -50%); transition: all 0.3s; z-index: 10;
   }
-  .hotspot:hover, .hotspot.active { background: var(--accent); color: var(--bg); box-shadow: 0 0 25px var(--accent); transform: translate(-50%, -50%) scale(1.2); }
+  .hotspot.active { background: var(--accent); color: var(--bg); box-shadow: 0 0 25px var(--accent); transform: translate(-50%, -50%) scale(1.2); }
   .hotspot.filled { border-color: #47ff8a; color: #47ff8a; }
 
   /* RIGHT: FORM */
-  .form-panel { background: var(--surface); display: flex; flex-direction: column; overflow-y: auto; scroll-margin-top: 73px; }
+  .form-panel { background: var(--surface); display: flex; flex-direction: column; overflow-y: auto; }
   .panel-top { padding: 40px; border-bottom: 1px solid var(--border); }
-  .panel-top h2 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; }
-  .panel-top p { font-size: 12px; color: #555; margin-top: 4px; }
-
-  .form-content { padding: 40px; flex: 1; }
-  .phone-tip { background: rgba(232, 255, 71, 0.05); border: 1px solid rgba(232, 255, 71, 0.15); padding: 16px; border-radius: 12px; margin-bottom: 30px; display: flex; gap: 15px; align-items: center; }
-  .phone-tip p { font-size: 12px; color: var(--accent); line-height: 1.5; }
-
+  .form-content { padding: 40px; flex: 1; position: relative; }
   .input-section { display: none; }
   .input-section.active { display: block; animation: slideUp 0.4s ease; }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
   .input-group { margin-bottom: 24px; }
-  .label-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
-  .label-main { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .label-sub { font-size: 11px; color: var(--accent3); }
-
-  .input-main { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: #fff; font-size: 15px; outline: none; transition: border-color 0.3s; }
+  .input-main { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: #fff; font-size: 15px; outline: none; }
   .input-main:focus { border-color: var(--accent); }
+  .save-btn { width: 100%; padding: 18px; background: var(--accent); color: var(--bg); border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; cursor: pointer; margin-top: 10px; }
 
-  .phone-measure-hint { margin-top: 8px; font-size: 11px; color: #444; display: flex; justify-content: space-between; }
-  .save-btn { width: 100%; padding: 18px; background: var(--accent); color: var(--bg); border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
-  .save-btn:hover { background: #f5ff80; transform: translateY(-2px); }
+  /* ANALYSIS BUTTON */
+  .analysis-wrapper { padding: 40px; border-top: 1px solid var(--border); background: #0c0c0c; }
+  .btn-analyze { width: 100%; padding: 20px; background: #fff; color: #000; border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-analyze:hover { background: var(--accent); transform: scale(1.02); }
+  .btn-analyze:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
 
-  .tone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 12px; }
-  .tone-circle { aspect-ratio: 1; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.2s; }
-  .tone-circle.selected { border-color: var(--accent); box-shadow: 0 0 15px rgba(232, 255, 71, 0.4); }
-
-  /* AD INFO SECTION */
-  .info-section { padding: 80px 40px; border-bottom: 1px solid var(--border); }
-  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--accent); text-align: center; margin-bottom: 50px; letter-spacing: 3px; }
-  .info-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-  .info-card { background: var(--surface); padding: 35px; border-radius: 20px; border: 1px solid var(--border); }
-  .info-card h3 { font-size: 18px; color: var(--accent3); margin-bottom: 15px; }
-  .info-card p { font-size: 14px; color: #aaa; line-height: 1.8; }
-
-  /* POLICY SECTION */
-  .policy-section { padding: 80px 40px; background: #080808; }
-  .policy-content { max-width: 800px; margin: 0 auto; color: #888; font-size: 14px; line-height: 2; }
-  .policy-content strong { color: var(--text); }
-
-  footer { padding: 40px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: #444; }
-  .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; }
-  .footer-links a { color: #666; text-decoration: none; }
-
-  .toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent); color: var(--bg); padding: 14px 30px; border-radius: 50px; font-weight: 700; z-index: 2000; transition: transform 0.4s; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+  /* RESULT OVERLAY */
+  #result-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .result-card { background: #111; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; position: relative; padding: 60px 40px; }
+  .close-result { position: absolute; top: 30px; right: 30px; background: transparent; border: none; color: #fff; font-size: 30px; cursor: pointer; }
+  .result-title { font-family: 'Bebas Neue', sans-serif; font-size: 50px; color: var(--accent); text-align: center; margin-bottom: 10px; }
+  .result-subtitle { text-align: center; color: #888; margin-bottom: 40px; font-size: 14px; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .result-visual { display: flex; align-items: center; justify-content: center; background: #080808; border-radius: 20px; padding: 40px; border: 1px solid #222; }
+  .body-type-img { width: 100%; max-width: 250px; height: auto; filter: drop-shadow(0 0 30px rgba(var(--accent-rgb), 0.2)); }
+  .result-info h3 { font-size: 24px; color: #fff; margin-bottom: 15px; }
+  .result-info p { color: #aaa; font-size: 15px; margin-bottom: 20px; line-height: 1.8; }
+  .style-tip { background: #1a1a1a; padding: 20px; border-radius: 16px; border-left: 4px solid var(--accent); }
+  .style-tip h4 { font-size: 14px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; }
+  .style-tip ul { list-style: none; color: #ccc; font-size: 13px; }
+  .style-tip li { margin-bottom: 6px; }
 
   @media (max-width: 900px) {
     .main-container { grid-template-columns: 1fr; }
-    .visualizer { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 20px; min-height: 550px; }
-    .hero-text { position: relative; top: 0; left: 0; text-align: center; margin-bottom: 20px; }
+    .result-grid { grid-template-columns: 1fr; }
     .hero-text h1 { font-size: 32px; }
-    .body-box { width: 260px; height: 450px; }
-    .info-grid { grid-template-columns: 1fr; }
-    nav { display: none; }
-    .form-panel { scroll-margin-top: 0px; }
+    .result-title { font-size: 36px; }
   }
 </style>
 </head>
@@ -162,11 +113,6 @@
 
 <header id="top">
   <a href="#" class="logo">FIT<span>ME</span></a>
-  <nav>
-    <a href="#app" class="nav-measure">MEASURE</a>
-    <a href="#guide" class="nav-guide">GUIDE</a>
-    <a href="#privacy" class="nav-privacy">PRIVACY</a>
-  </nav>
   <div class="header-right">
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko">KO</button>
@@ -176,23 +122,18 @@
 </header>
 
 <div id="app" class="main-container">
-  <!-- LEFT VISUALIZER -->
   <div class="visualizer">
     <div class="hero-text">
       <h1 id="hero-title">NOT JUST HEIGHT,<br>IT'S PROPORTION.</h1>
-      <p id="hero-desc">같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.</p>
+      <p id="hero-desc">당신의 진짜 비율을 분석합니다.</p>
     </div>
     <div class="body-box">
       <svg class="body-svg" viewBox="0 0 280 480" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="140" cy="52" r="38" stroke="#222" stroke-width="2" fill="#111"/>
         <path d="M88 108 L192 108 L200 240 L80 240 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M88 112 L52 200 L62 204 L98 118" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M192 112 L228 200 L218 204 L182 118" fill="#111" stroke="#222" stroke-width="2"/>
         <path d="M80 240 L78 270 L202 270 L200 240 Z" fill="#111" stroke="#222" stroke-width="2"/>
         <path d="M80 268 L72 370 L108 370 L116 268 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M72 374 L68 460 L108 460 L108 374 Z" fill="#111" stroke="#222" stroke-width="2"/>
         <path d="M200 268 L208 370 L172 370 L164 268 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M208 374 L212 460 L172 460 L172 374 Z" fill="#111" stroke="#222" stroke-width="2"/>
       </svg>
       <button class="hotspot" id="hs-skin" style="left:50%; top:5%;" onclick="selectPart('skin')">P</button>
       <button class="hotspot" id="hs-shoulder" style="left:50%; top:23%;" onclick="selectPart('shoulder')">01</button>
@@ -204,23 +145,16 @@
     </div>
   </div>
 
-  <!-- RIGHT FORM -->
   <div class="form-panel" id="input-target">
     <div class="panel-top">
       <h2 id="panel-title">START MEASURING</h2>
-      <p id="panel-desc">왼쪽 인체 모델의 번호를 클릭하세요.</p>
+      <p id="panel-desc">모델의 번호를 클릭하세요.</p>
     </div>
     <div class="form-content">
-      <div class="phone-tip">
-        <p id="phone-tip-text"><strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!</p>
-      </div>
-      <div id="placeholder" style="text-align:center; padding-top:80px; color:#444;">
-        <p id="placeholder-text">인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.</p>
-      </div>
+      <div id="placeholder" style="text-align:center; padding-top:80px; color:#444;"><p>각 부위의 길이를 입력해주세요.</p></div>
 
-      <!-- SECTIONS -->
+      <!-- FORMS -->
       <div class="input-section" id="section-skin">
-        <div class="label-row"><span class="label-main">SKIN TONE / 피부톤</span></div>
         <div class="tone-grid">
           <div class="tone-circle" style="background:#f9ebe0;" onclick="selectTone(this, 'pale')"></div>
           <div class="tone-circle" style="background:#f3d6c1;" onclick="selectTone(this, 'light')"></div>
@@ -228,148 +162,82 @@
           <div class="tone-circle" style="background:#d08b5b;" onclick="selectTone(this, 'tan')"></div>
           <div class="tone-circle" style="background:#7b4b2a;" onclick="selectTone(this, 'dark')"></div>
         </div>
-        <button class="save-btn" onclick="saveData('skin')" id="btn-save-skin">SAVE TONE</button>
+        <button class="save-btn" onclick="saveData('skin')">SAVE</button>
       </div>
-
       <div class="input-section" id="section-shoulder">
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">어깨 너비 / Shoulder Width</span></div>
-          <input type="number" class="input-main" id="val-shoulder" placeholder="cm">
-          <div class="phone-measure-hint"><span>1폰 ≈ 15cm</span><span>2폰 ≈ 30cm</span><span>3폰 ≈ 45cm</span></div>
-        </div>
+        <input type="number" class="input-main" id="val-shoulder" placeholder="어깨 너비 (cm)">
         <button class="save-btn" onclick="saveData('shoulder')">SAVE</button>
       </div>
-
       <div class="input-section" id="section-arm">
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">어깨 ~ 팔꿈치 / Shoulder to Elbow</span></div>
-          <input type="number" class="input-main" id="val-arm-upper" placeholder="cm">
-        </div>
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">팔꿈치 ~ 손목 / Elbow to Wrist</span></div>
-          <input type="number" class="input-main" id="val-arm-lower" placeholder="cm">
-        </div>
-        <button class="save-btn" onclick="saveData('arm')">SAVE ARM RATIO</button>
+        <input type="number" class="input-main" id="val-arm-upper" placeholder="팔 상단 길이 (cm)" style="margin-bottom:10px;">
+        <input type="number" class="input-main" id="val-arm-lower" placeholder="팔 하단 길이 (cm)">
+        <button class="save-btn" onclick="saveData('arm')">SAVE</button>
       </div>
-
       <div class="input-section" id="section-waist">
-        <div class="input-group">
-          <div class="label-row">
-            <span class="label-main">허리 둘레 / Waist (Inch)</span>
-            <span class="label-sub" id="label-waist-tip">기성복 바지 사이즈 기준</span>
-          </div>
-          <input type="number" class="input-main" id="val-waist" placeholder="inch (예: 32)">
-        </div>
-        <button class="save-btn" onclick="saveData('waist')">SAVE INCH</button>
+        <input type="number" class="input-main" id="val-waist" placeholder="허리 사이즈 (inch)">
+        <button class="save-btn" onclick="saveData('waist')">SAVE</button>
       </div>
-
       <div class="input-section" id="section-knee">
-        <div class="label-row"><span class="label-main">무릎 ~ 골반 끝 / Knee to Hip</span></div>
-        <input type="number" class="input-main" id="val-knee-hip" placeholder="cm">
+        <input type="number" class="input-main" id="val-knee-hip" placeholder="무릎~골반 길이 (cm)">
         <button class="save-btn" onclick="saveData('knee')">SAVE</button>
       </div>
-
       <div class="input-section" id="section-ankle">
-        <div class="label-row"><span class="label-main">복숭아뼈 ~ 무릎 / Ankle to Knee</span></div>
-        <input type="number" class="input-main" id="val-ankle-knee" placeholder="cm">
+        <input type="number" class="input-main" id="val-ankle-knee" placeholder="복숭아뼈~무릎 길이 (cm)">
         <button class="save-btn" onclick="saveData('ankle')">SAVE</button>
       </div>
-
       <div class="input-section" id="section-foot">
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">발 사이즈 / Foot Size</span></div>
-          <input type="number" class="input-main" id="val-foot" placeholder="mm">
-        </div>
+        <input type="number" class="input-main" id="val-foot" placeholder="발 사이즈 (mm)">
         <button class="save-btn" onclick="saveData('foot')">SAVE</button>
+      </div>
+    </div>
+
+    <!-- ANALYSIS BUTTON -->
+    <div class="analysis-wrapper">
+      <button class="btn-analyze" id="btn-analyze" onclick="showResult()" disabled>
+        <span>🔍 GET MY FIT RESULT</span>
+      </button>
+      <p style="font-size:11px; color:#444; text-align:center; margin-top:12px;" id="analyze-hint">모든 치수를 입력하면 분석이 가능합니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div id="result-overlay">
+  <div class="result-card">
+    <button class="close-result" onclick="document.getElementById('result-overlay').style.display='none'">×</button>
+    <h2 class="result-title" id="res-type-name">ANALYZING...</h2>
+    <p class="result-subtitle" id="res-subtitle">당신의 데이터로 분석한 최적의 실루엣입니다.</p>
+    
+    <div class="result-grid">
+      <div class="result-visual">
+        <!-- SVG Image for body type -->
+        <svg class="body-type-img" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+          <path id="svg-body-path" d="M100 50 L140 100 L140 300 L60 300 L60 100 Z" fill="var(--accent)" opacity="0.8"/>
+          <circle cx="100" cy="30" r="20" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="result-info">
+        <h3 id="res-header">핏 분석 결과</h3>
+        <p id="res-desc">어깨 대비 허리가 슬림하며 다리가 긴 체형입니다. 상체를 강조하고 하체를 슬림하게 연출하는 스타일이 어울립니다.</p>
+        <div class="style-tip">
+          <h4 id="tip-header">STYLING TIPS</h4>
+          <ul id="tip-list">
+            <li>상의는 어깨선이 딱 맞는 정핏을 추천합니다.</li>
+            <li>바지는 슬림 스트레이트 핏이 가장 잘 어울립니다.</li>
+            <li>밝은 톤의 상의와 어두운 하의로 밸런스를 잡으세요.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<section id="guide" class="info-section">
-  <h2 class="section-title" id="guide-title">MEASUREMENT GUIDE</h2>
-  <div class="info-grid">
-    <div class="info-card">
-      <h3 id="card-1-t">비율이 핏을 결정합니다</h3>
-      <p id="card-1-p">단순히 키와 몸무게만으로는 당신의 실루엣을 알 수 없습니다. 상체와 하체의 비율, 종아리와 허벅지의 비례를 측정하여 기성복 쇼핑의 실패를 줄이세요.</p>
-    </div>
-    <div class="info-card">
-      <h3>스마트폰 가이드</h3>
-      <p>자가 없을 땐 핸드폰 세로 길이(약 15.5cm)를 한 마디로 생각하고 측정해보세요. 보다 간편하게 자신의 사이즈를 기록할 수 있습니다.</p>
-    </div>
-  </div>
-</section>
-
-<section id="privacy" class="policy-section">
-  <div class="policy-content">
-    <h2 id="policy-title" style="color:var(--accent); margin-bottom:30px; font-family:'Bebas Neue'; letter-spacing:2px;">PRIVACY POLICY</h2>
-    <p id="policy-text">
-      <strong>데이터 저장:</strong> FITME는 사용자가 입력한 어떠한 신체 정보도 서버에 저장하지 않습니다. 모든 데이터는 브라우저 세션에만 임시로 존재하며 종료 시 삭제됩니다.<br>
-      <strong>애드센스 광고:</strong> 본 사이트는 구글 애드센스를 포함하고 있으며, 광고 노출을 위해 비개인적 쿠키 데이터가 사용될 수 있습니다.<br>
-      <strong>개인정보 보호:</strong> 사용자의 실제 이름, 이메일, 위치 등 식별 가능한 정보를 요구하지 않습니다.
-    </p>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-links">
-    <a href="#top">Home</a>
-    <a href="#guide">Guide</a>
-    <a href="#privacy">Privacy</a>
-  </div>
-  <p>&copy; 2024 FITME. All Rights Reserved.</p>
-</footer>
-
 <div class="toast" id="toast">SAVED</div>
 
 <script>
-  let currentLang = 'ko';
-  const t = {
-    ko: {
-      heroTitle: 'NOT JUST HEIGHT,<br>IT\'S PROPORTION.',
-      heroDesc: '같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.',
-      panelTitle: '측정 시작하기',
-      panelDesc: '인체 모델의 번호를 클릭하세요.',
-      phoneTip: '<strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!',
-      placeholder: '인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.',
-      guideTitle: '측정 가이드',
-      policyTitle: '개인정보처리방침',
-      waistTip: '기성복 바지 사이즈 기준',
-      btnSaveSkin: '피부톤 저장',
-      toast: '저장 완료!'
-    },
-    en: {
-      heroTitle: 'NOT JUST HEIGHT,\nIT\'S PROPORTION.',
-      heroDesc: 'Same height, different leg length. Find your real proportions beyond standard sizing.',
-      panelTitle: 'START MEASURING',
-      panelDesc: 'Click a number on the body model.',
-      phoneTip: '<strong>No ruler?</strong> A smartphone is about 15-16cm long. Use it to estimate your measurements!',
-      placeholder: 'Click a body part to open input fields.',
-      guideTitle: 'MEASUREMENT GUIDE',
-      policyTitle: 'PRIVACY POLICY',
-      waistTip: 'Based on trouser size',
-      btnSaveSkin: 'SAVE TONE',
-      toast: 'SAVED SUCCESSFULLY!'
-    }
-  };
-
-  function setLang(lang) {
-    currentLang = lang;
-    document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    
-    const d = t[lang];
-    document.getElementById('hero-title').innerHTML = d.heroTitle;
-    document.getElementById('hero-desc').textContent = d.heroDesc;
-    document.getElementById('panel-title').textContent = d.panelTitle;
-    document.getElementById('panel-desc').textContent = d.panelDesc;
-    document.getElementById('phone-tip-text').innerHTML = d.phoneTip;
-    document.getElementById('placeholder-text').innerHTML = d.placeholder;
-    document.getElementById('guide-title').textContent = d.guideTitle;
-    document.getElementById('policy-title').textContent = d.policyTitle;
-    document.getElementById('label-waist-tip').textContent = d.waistTip;
-    document.getElementById('btn-save-skin').textContent = d.btnSaveSkin;
-  }
+  let filledCount = 0;
+  const totalSteps = 7;
+  const measurements = {};
 
   function selectPart(part) {
     document.querySelectorAll('.input-section').forEach(s => s.classList.remove('active'));
@@ -377,35 +245,61 @@
     document.getElementById('section-' + part).classList.add('active');
     document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
     document.getElementById('hs-' + part).classList.add('active');
-    document.getElementById('panel-title').textContent = part.toUpperCase() + ' INPUT';
-
-    // 모바일 자동 스크롤 로직 추가
+    
     if (window.innerWidth <= 900) {
-      const target = document.getElementById('input-target');
-      const offset = 10; // 여백
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = target.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      document.getElementById('input-target').scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  function saveData(part) {
+    const isNew = !measurements[part];
+    measurements[part] = true;
+    if (isNew) {
+      filledCount++;
+      document.getElementById('hs-' + part).classList.add('filled');
+    }
+    
+    if (filledCount >= totalSteps) {
+      document.getElementById('btn-analyze').disabled = false;
+      document.getElementById('btn-analyze').style.background = 'var(--accent)';
+      document.getElementById('analyze-hint').style.color = 'var(--accent)';
+      document.getElementById('analyze-hint').textContent = '분석 준비 완료! 버튼을 눌러주세요.';
+    }
+    showToast('✓ ' + part.toUpperCase() + ' SAVED');
   }
 
   function selectTone(el, tone) {
     document.querySelectorAll('.tone-circle').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
+    measurements['skin'] = tone;
   }
 
-  function saveData(part) {
-    showToast(t[currentLang].toast);
-    document.getElementById('hs-' + part).classList.add('filled');
+  function showResult() {
+    const overlay = document.getElementById('result-overlay');
+    overlay.style.display = 'flex';
     
-    // 저장 후 다시 인체 모델로 스크롤 이동 (선택 사항)
-    // window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 단순 분석 로직 (예시)
+    const waist = document.getElementById('val-waist').value;
+    const shoulder = document.getElementById('val-shoulder').value;
+    const kneeHip = document.getElementById('val-knee-hip').value;
+    const ankleKnee = document.getElementById('val-ankle-knee').value;
+
+    let type = "Standard Proportional";
+    let desc = "전체적으로 균형 잡힌 밸런스를 가진 체형입니다.";
+    let path = "M100 50 L140 100 L140 300 L60 300 L60 100 Z"; // Rect
+
+    if (shoulder > 45 && waist < 32) {
+      type = "Inverted Triangle (V-Shape)";
+      desc = "어깨가 발달하고 허리가 슬림한 모델형 체형입니다. 상체의 실루엣을 살리는 코디가 효과적입니다.";
+      path = "M100 50 L160 100 L130 300 L70 300 L40 100 Z"; // V-Shape
+    } else if (ankleKnee > kneeHip) {
+      type = "Long-Leg Proportion";
+      desc = "하퇴부(종아리)가 상퇴부보다 긴 서구형 비율입니다. 크롭한 기장의 상의로 다리를 더 돋보이게 하세요.";
+    }
+
+    document.getElementById('res-type-name').textContent = type;
+    document.getElementById('res-desc').textContent = desc;
+    document.getElementById('svg-body-path').setAttribute('d', path);
   }
 
   function showToast(msg) {
@@ -413,6 +307,11 @@
     toast.textContent = msg;
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  function setLang(lang) {
+    document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   }
 </script>
 </body>
