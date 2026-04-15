@@ -552,6 +552,29 @@
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2000);
   }
+
+  // Keyboard Shortcuts
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+    
+    const key = e.key.toLowerCase();
+    const keyMap = {
+      'p': 'skin',
+      '1': 'shoulder',
+      '2': 'arm',
+      '3': 'waist',
+      '4': 'knee',
+      '5': 'ankle',
+      '6': 'foot'
+    };
+
+    if (keyMap[key]) {
+      selectPart(keyMap[key]);
+      showToast(keyMap[key].toUpperCase() + ' INPUT SELECTED');
+    } else if (key === 'enter') {
+      showResult();
+    }
+  });
 </script>
 </body>
 </html>
