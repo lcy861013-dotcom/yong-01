@@ -170,3 +170,31 @@
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
   }
+
+  // Keyboard Shortcuts
+  window.addEventListener('keydown', (e) => {
+    // Ignore if user is typing in an input field
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+    const key = e.key.toLowerCase();
+    
+    // Mapping keys 1-9 to parts
+    const keyMap = {
+      '1': 'head',
+      '2': 'shoulder',
+      '3': 'chest',
+      '4': 'arm',
+      '5': 'waist',
+      '6': 'hip',
+      '7': 'thigh',
+      '8': 'knee',
+      '9': 'foot'
+    };
+
+    if (keyMap[key]) {
+      selectPart(keyMap[key]);
+      showToast(panelTitles[keyMap[key]] + ' 선택됨 (Shortcut: ' + key + ')');
+    } else if (key === 'p') {
+      getRecommendation();
+    }
+  });
