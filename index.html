@@ -122,6 +122,11 @@
   .input-section.active { display: block; animation: slideUp 0.4s ease; }
   @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+  .measure-guide-box { background: #1a1a1a; padding: 20px; border-radius: 12px; margin-bottom: 24px; border-left: 3px solid var(--accent3); }
+  .measure-guide-box h4 { font-size: 13px; color: var(--accent3); margin-bottom: 8px; font-weight: 700; }
+  .measure-guide-box p { font-size: 12px; color: #aaa; line-height: 1.6; }
+  .measure-guide-box .example-img { width: 100%; height: 120px; background: #222; border-radius: 8px; margin-top: 10px; display: flex; align-items: center; justify-content: center; color: #444; font-size: 11px; overflow: hidden; }
+
   .input-group { margin-bottom: 24px; }
   .label-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
   .label-main { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
@@ -203,8 +208,8 @@
   <div class="header-right">
     <div class="lang-toggle">
       <div style="padding: 0 4px 0 8px; display: flex; align-items: center; color: var(--muted);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
-      <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko">KO</button>
-      <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+      <button class="lang-btn active" onclick="setLang(\'ko\')" id="btn-ko">KO</button>
+      <button class="lang-btn" onclick="setLang(\'en\')" id="btn-en">EN</button>
       <select class="lang-select" onchange="setLang(this.value)" id="lang-more" style="background:transparent; border:none; color:var(--muted); font-size:11px; font-weight:700; cursor:pointer; outline:none; padding-right:10px;">
         <option value="" disabled selected>MORE</option>
         <option value="jp">JP (日本語)</option>
@@ -228,7 +233,7 @@
 <div id="app" class="main-container">
   <div class="visualizer">
     <div class="hero-text">
-      <h1 id="hero-title">NOT JUST HEIGHT,<br>IT'S PROPORTION.</h1>
+      <h1 id="hero-title">NOT JUST HEIGHT,<br>IT\'S PROPORTION.</h1>
       <p id="hero-desc">같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.</p>
     </div>
     <div class="body-box">
@@ -243,13 +248,13 @@
         <path d="M200 268 L208 370 L172 370 L164 268 Z" fill="#111" stroke="#222" stroke-width="2"/>
         <path d="M208 374 L212 460 L172 460 L172 374 Z" fill="#111" stroke="#222" stroke-width="2"/>
       </svg>
-      <button class="hotspot" id="hs-skin" style="left:50%; top:5%;" onclick="selectPart('skin')">P</button>
-      <button class="hotspot" id="hs-shoulder" style="left:50%; top:23%;" onclick="selectPart('shoulder')">01</button>
-      <button class="hotspot" id="hs-arm" style="left:15%; top:42%;" onclick="selectPart('arm')">02</button>
-      <button class="hotspot" id="hs-waist" style="left:50%; top:42%;" onclick="selectPart('waist')">03</button>
-      <button class="hotspot" id="hs-knee" style="left:30%; top:68%;" onclick="selectPart('knee')">04</button>
-      <button class="hotspot" id="hs-ankle" style="left:30%; top:85%;" onclick="selectPart('ankle')">05</button>
-      <button class="hotspot" id="hs-foot" style="left:30%; top:96%;" onclick="selectPart('foot')">06</button>
+      <button class="hotspot" id="hs-skin" style="left:50%; top:5%;" onclick="selectPart(\'skin\')">P</button>
+      <button class="hotspot" id="hs-shoulder" style="left:50%; top:23%;" onclick="selectPart(\'shoulder\')">01</button>
+      <button class="hotspot" id="hs-arm" style="left:15%; top:42%;" onclick="selectPart(\'arm\')">02</button>
+      <button class="hotspot" id="hs-waist" style="left:50%; top:42%;" onclick="selectPart(\'waist\')">03</button>
+      <button class="hotspot" id="hs-knee" style="left:30%; top:68%;" onclick="selectPart(\'knee\')">04</button>
+      <button class="hotspot" id="hs-ankle" style="left:30%; top:85%;" onclick="selectPart(\'ankle\')">05</button>
+      <button class="hotspot" id="hs-foot" style="left:30%; top:96%;" onclick="selectPart(\'foot\')">06</button>
     </div>
   </div>
 
@@ -268,27 +273,40 @@
 
       <!-- SECTIONS -->
       <div class="input-section" id="section-skin">
+        <div class="measure-guide-box">
+          <h4 id="guide-skin-t">피부톤 선택</h4>
+          <p id="guide-skin-p">자신의 피부톤과 가장 유사한 컬러를 선택해주세요. 퍼스널 컬러 분석의 기초가 됩니다.</p>
+        </div>
         <div class="label-row"><span class="label-main">SKIN TONE / 피부톤</span></div>
         <div class="tone-grid">
-          <div class="tone-circle" style="background:#f9ebe0;" onclick="selectTone(this, 'pale')"></div>
-          <div class="tone-circle" style="background:#f3d6c1;" onclick="selectTone(this, 'light')"></div>
-          <div class="tone-circle" style="background:#e8b999;" onclick="selectTone(this, 'medium')"></div>
-          <div class="tone-circle" style="background:#d08b5b;" onclick="selectTone(this, 'tan')"></div>
-          <div class="tone-circle" style="background:#7b4b2a;" onclick="selectTone(this, 'dark')"></div>
+          <div class="tone-circle" style="background:#f9ebe0;" onclick="selectTone(this, \'pale\')"></div>
+          <div class="tone-circle" style="background:#f3d6c1;" onclick="selectTone(this, \'light\')"></div>
+          <div class="tone-circle" style="background:#e8b999;" onclick="selectTone(this, \'medium\')"></div>
+          <div class="tone-circle" style="background:#d08b5b;" onclick="selectTone(this, \'tan\')"></div>
+          <div class="tone-circle" style="background:#7b4b2a;" onclick="selectTone(this, \'dark\')"></div>
         </div>
-        <button class="save-btn" onclick="saveData('skin')" id="btn-save-skin">SAVE TONE</button>
+        <button class="save-btn" onclick="saveData(\'skin\')" id="btn-save-skin">SAVE TONE</button>
       </div>
 
       <div class="input-section" id="section-shoulder">
+        <div class="measure-guide-box">
+          <h4 id="guide-shoulder-t">어깨 너비 측정법</h4>
+          <p id="guide-shoulder-p">왼쪽 어깨 끝점부터 오른쪽 어깨 끝점까지 일직선으로 측정하세요. 줄자가 없다면 스마트폰 3개 정도의 길이를 확인해보세요.</p>
+          <div class="example-img">SHOULDER TIP: 3 PHONES ≈ 45CM</div>
+        </div>
         <div class="input-group">
           <div class="label-row"><span class="label-main">어깨 너비 / Shoulder Width</span></div>
           <input type="number" class="input-main" id="val-shoulder" placeholder="cm">
           <div class="phone-measure-hint"><span>1폰 ≈ 15cm</span><span>2폰 ≈ 30cm</span><span>3폰 ≈ 45cm</span></div>
         </div>
-        <button class="save-btn" onclick="saveData('shoulder')">SAVE</button>
+        <button class="save-btn" onclick="saveData(\'shoulder\')">SAVE</button>
       </div>
 
       <div class="input-section" id="section-arm">
+        <div class="measure-guide-box">
+          <h4 id="guide-arm-t">팔 길이 비율</h4>
+          <p id="guide-arm-p">상완(어깨~팔꿈치)과 하완(팔꿈치~손목)을 나누어 측정하면 더 정확한 소매 기수 추천이 가능합니다.</p>
+        </div>
         <div class="input-group">
           <div class="label-row"><span class="label-main">어깨 ~ 팔꿈치 / Shoulder to Elbow</span></div>
           <input type="number" class="input-main" id="val-arm-upper" placeholder="cm">
@@ -297,10 +315,14 @@
           <div class="label-row"><span class="label-main">팔꿈치 ~ 손목 / Elbow to Wrist</span></div>
           <input type="number" class="input-main" id="val-arm-lower" placeholder="cm">
         </div>
-        <button class="save-btn" onclick="saveData('arm')">SAVE ARM RATIO</button>
+        <button class="save-btn" onclick="saveData(\'arm\')">SAVE ARM RATIO</button>
       </div>
 
       <div class="input-section" id="section-waist">
+        <div class="measure-guide-box">
+          <h4 id="guide-waist-t">허리 및 골반</h4>
+          <p id="guide-waist-p">평소 입으시는 바지의 인치(Inch) 사이즈를 입력해주세요. 골반 바지라면 실제 허리보다 크게 측정될 수 있습니다.</p>
+        </div>
         <div class="input-group">
           <div class="label-row">
             <span class="label-main">허리 둘레 / Waist (Inch)</span>
@@ -308,31 +330,43 @@
           </div>
           <input type="number" class="input-main" id="val-waist" placeholder="inch (예: 32)">
         </div>
-        <button class="save-btn" onclick="saveData('waist')">SAVE INCH</button>
+        <button class="save-btn" onclick="saveData(\'waist\')">SAVE INCH</button>
       </div>
 
       <div class="input-section" id="section-knee">
+        <div class="measure-guide-box">
+          <h4 id="guide-knee-t">허벅지 기장 (인심)</h4>
+          <p id="guide-knee-p">골반 뼈 끝부터 무릎 중앙까지의 길이를 측정하세요. 다리 전체 비율을 결정하는 중요한 수치입니다.</p>
+        </div>
         <div class="input-group">
           <div class="label-row"><span class="label-main">무릎 ~ 골반 끝 / Knee to Hip</span></div>
           <input type="number" class="input-main" id="val-knee-hip" placeholder="cm">
         </div>
-        <button class="save-btn" onclick="saveData('knee')">SAVE</button>
+        <button class="save-btn" onclick="saveData(\'knee\')">SAVE</button>
       </div>
 
       <div class="input-section" id="section-ankle">
+        <div class="measure-guide-box">
+          <h4 id="guide-ankle-t">종아리 기장</h4>
+          <p id="guide-ankle-p">복숭아뼈부터 무릎 중앙까지 측정하세요. 하이탑이나 숏팬츠 선택 시 중요한 기준이 됩니다.</p>
+        </div>
         <div class="input-group">
           <div class="label-row"><span class="label-main">복숭아뼈 ~ 무릎 / Ankle to Knee</span></div>
           <input type="number" class="input-main" id="val-ankle-knee" placeholder="cm">
         </div>
-        <button class="save-btn" onclick="saveData('ankle')">SAVE</button>
+        <button class="save-btn" onclick="saveData(\'ankle\')">SAVE</button>
       </div>
 
       <div class="input-section" id="section-foot">
+        <div class="measure-guide-box">
+          <h4 id="guide-foot-t">발 사이즈</h4>
+          <p id="guide-foot-p">운동화나 구두를 살 때 기준이 되는 mm 사이즈를 입력해주세요.</p>
+        </div>
         <div class="input-group">
           <div class="label-row"><span class="label-main">발 사이즈 / Foot Size</span></div>
           <input type="number" class="input-main" id="val-foot" placeholder="mm">
         </div>
-        <button class="save-btn" onclick="saveData('foot')">SAVE</button>
+        <button class="save-btn" onclick="saveData(\'foot\')">SAVE</button>
       </div>
     </div>
 
