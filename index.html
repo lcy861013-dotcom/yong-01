@@ -3,128 +3,534 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FITME — 나만의 핏</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<title>FITME — 나만의 핏 / My Perfect Fit</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #1a1a1a;
+    --accent: #e8ff47;
+    --accent2: #ff4747;
+    --accent3: #47c8ff;
+    --text: #f0f0f0;
+    --muted: #555;
+    --border: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 6px;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(232,255,71,0.4);
+  }
+
+  .logo span { color: var(--text); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* LANGUAGE TOGGLE */
+  .lang-toggle {
+    display: flex;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 4px;
+    gap: 2px;
+  }
+
+  .lang-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .header-tag {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    min-height: calc(100vh - 73px);
+  }
+
+  /* LEFT */
+  .body-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .body-container {
+    position: relative;
+    width: 280px;
+    height: 480px;
+  }
+
+  .body-svg { width: 100%; height: 100%; }
+
+  .hotspot {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: rgba(232,255,71,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    transition: all 0.2s;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+
+  .hotspot:hover, .hotspot.active {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 20px rgba(232,255,71,0.5);
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+
+  .hotspot.filled {
+    border-color: #47ff8a;
+    background: rgba(71,255,138,0.15);
+    color: #47ff8a;
+  }
+
+  .hotspot.filled:hover {
+    background: #47ff8a;
+    color: var(--bg);
+  }
+
+  .hotspot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    animation: pulse 2s infinite;
+    opacity: 0;
+  }
+
+  .hotspot.filled::after { border-color: #47ff8a; }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+
+  /* RIGHT PANEL */
+  .panel {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+  }
+
+  .panel-header {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin-bottom: 6px;
+  }
+
+  .panel-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .input-area {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+  }
+
+  .input-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    line-height: 2;
+  }
+
+  .input-placeholder .arrow {
+    font-size: 28px;
+    margin-bottom: 12px;
+    animation: bounce 1.5s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+  }
+
+  .measurement-form { display: none; }
+  .measurement-form.visible { display: block; }
+
+  .form-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .form-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .input-group { margin-bottom: 16px; }
+
+  .input-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .input-field {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232,255,71,0.1);
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .radio-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .radio-btn {
+    flex: 1;
+    min-width: 60px;
+    padding: 10px 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .radio-btn:hover { border-color: var(--accent); color: var(--text); }
+  .radio-btn.selected { border-color: var(--accent); background: rgba(232,255,71,0.1); color: var(--accent); font-weight: 700; }
+
+  .save-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.2s;
+  }
+
+  .save-btn:hover {
+    background: #f5ff80;
+    box-shadow: 0 4px 20px rgba(232,255,71,0.4);
+    transform: translateY(-1px);
+  }
+
+  .progress-bar {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .saved-list {
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    overflow-y: auto;
+    max-height: 220px;
+  }
+
+  .saved-list-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .saved-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .saved-item-label { color: var(--muted); font-size: 10px; letter-spacing: 1px; font-family: 'DM Sans', sans-serif; }
+  .saved-item-value { color: var(--accent); font-weight: 700; font-family: 'DM Sans', sans-serif; }
+
+  .cta-section {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cta-btn:hover { border-color: var(--text); background: rgba(255,255,255,0.05); }
+
+  .cta-btn.primary {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: white;
+  }
+
+  .cta-btn.primary:hover { background: #ff6666; box-shadow: 0 4px 20px rgba(255,71,71,0.4); }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--accent);
+    color: var(--bg);
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: transform 0.3s;
+    z-index: 999;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .body-section { border-right: none; border-bottom: 1px solid var(--border); }
+    .body-container { width: 220px; height: 380px; }
+    header { padding: 16px 20px; }
+    .header-tag { display: none; }
+  }
+</style>
 </head>
 <body>
 
 <header>
   <div class="logo">FIT<span>ME</span></div>
-  <div class="header-tag">나만의 핏 측정기</div>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko">한국어</button>
+      <button class="lang-btn" onclick="setLang('en')" id="btn-en">ENG</button>
+    </div>
+    <div class="header-tag" id="header-tag">나만의 핏 측정기</div>
+  </div>
 </header>
 
 <div class="main">
   <!-- LEFT: BODY FIGURE -->
   <div class="body-section">
-    <div class="section-label">신체 부위를 클릭하세요</div>
+    <div class="section-label" id="section-label">신체 부위를 클릭하세요</div>
 
     <div class="body-container">
-      <!-- SVG 인체 도형 -->
       <svg class="body-svg" viewBox="0 0 280 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- 머리 -->
         <circle cx="140" cy="52" r="38" stroke="#2a2a2a" stroke-width="2" fill="#1a1a1a"/>
-        <!-- 눈 -->
         <circle cx="127" cy="48" r="4" fill="#333"/>
         <circle cx="153" cy="48" r="4" fill="#333"/>
-        <!-- 코 -->
         <line x1="140" y1="52" x2="138" y2="60" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="138" y1="60" x2="142" y2="60" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
-        <!-- 입 -->
         <path d="M132 68 Q140 74 148 68" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-
-        <!-- 목 -->
         <rect x="130" y="88" width="20" height="20" rx="4" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1.5"/>
-
-        <!-- 몸통 -->
         <path d="M88 108 L192 108 L200 240 L80 240 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-        <!-- 어깨 라인 -->
         <line x1="88" y1="118" x2="192" y2="118" stroke="#333" stroke-width="1" stroke-dasharray="4 4"/>
-        <!-- 가슴 라인 -->
         <line x1="88" y1="148" x2="192" y2="148" stroke="#333" stroke-width="1" stroke-dasharray="4 4"/>
-        <!-- 허리 라인 -->
         <line x1="84" y1="188" x2="196" y2="188" stroke="#333" stroke-width="1" stroke-dasharray="4 4"/>
-
-        <!-- 왼팔 -->
         <path d="M88 112 L52 200 L62 204 L98 118" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-        <!-- 왼팔 팔꿈치 -->
         <circle cx="62" cy="160" r="3" fill="#333"/>
-        <!-- 오른팔 -->
         <path d="M192 112 L228 200 L218 204 L182 118" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-        <!-- 오른팔 팔꿈치 -->
         <circle cx="218" cy="160" r="3" fill="#333"/>
-
-        <!-- 왼손 -->
         <ellipse cx="56" cy="210" rx="12" ry="8" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1.5"/>
-        <!-- 오른손 -->
         <ellipse cx="224" cy="210" rx="12" ry="8" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1.5"/>
-
-        <!-- 골반 -->
         <path d="M80 240 L78 270 L202 270 L200 240 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-
-        <!-- 왼다리 허벅지 -->
         <path d="M80 268 L72 370 L108 370 L116 268 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-        <!-- 왼다리 무릎 -->
         <ellipse cx="90" cy="370" rx="18" ry="8" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1.5"/>
-        <!-- 왼다리 정강이 -->
         <path d="M72 374 L68 460 L108 460 L108 374 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-
-        <!-- 오른다리 허벅지 -->
         <path d="M200 268 L208 370 L172 370 L164 268 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-        <!-- 오른다리 무릎 -->
         <ellipse cx="190" cy="370" rx="18" ry="8" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1.5"/>
-        <!-- 오른다리 정강이 -->
         <path d="M208 374 L212 460 L172 460 L172 374 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-
-        <!-- 왼발 -->
         <ellipse cx="86" cy="464" rx="22" ry="10" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1.5"/>
-        <!-- 오른발 -->
         <ellipse cx="194" cy="464" rx="22" ry="10" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1.5"/>
-
-        <!-- 측정 가이드 라인들 -->
-        <!-- 다리 길이 화살표 표시 -->
         <line x1="50" y1="270" x2="50" y2="460" stroke="#333" stroke-width="1" stroke-dasharray="2 3"/>
         <line x1="46" y1="270" x2="54" y2="270" stroke="#333" stroke-width="1"/>
         <line x1="46" y1="460" x2="54" y2="460" stroke="#333" stroke-width="1"/>
-
-        <!-- 어깨너비 표시 -->
         <line x1="88" y1="96" x2="192" y2="96" stroke="#333" stroke-width="1" stroke-dasharray="2 3"/>
         <line x1="88" y1="92" x2="88" y2="100" stroke="#333" stroke-width="1"/>
         <line x1="192" y1="92" x2="192" y2="100" stroke="#333" stroke-width="1"/>
       </svg>
 
-      <!-- 핫스팟 버튼들 -->
-      <button class="hotspot" id="hs-head" style="left:50%; top:11%;" onclick="selectPart('head')" title="모자/머리">
-        👤
-      </button>
-      <button class="hotspot" id="hs-shoulder" style="left:50%; top:23%;" onclick="selectPart('shoulder')" title="어깨">
-        ↔
-      </button>
-      <button class="hotspot" id="hs-chest" style="left:50%; top:33%;" onclick="selectPart('chest')" title="가슴/상체">
-        ◉
-      </button>
-      <button class="hotspot" id="hs-arm" style="left:14%; top:42%;" onclick="selectPart('arm')" title="팔 길이">
-        💪
-      </button>
-      <button class="hotspot" id="hs-waist" style="left:50%; top:42%;" onclick="selectPart('waist')" title="허리">
-        ○
-      </button>
-      <button class="hotspot" id="hs-hip" style="left:50%; top:57%;" onclick="selectPart('hip')" title="골반">
-        ↕
-      </button>
-      <button class="hotspot" id="hs-thigh" style="left:30%; top:68%;" onclick="selectPart('thigh')" title="허벅지~무릎">
-        ┃
-      </button>
-      <button class="hotspot" id="hs-knee" style="left:30%; top:80%;" onclick="selectPart('knee')" title="무릎~골반">
-        ⊕
-      </button>
-      <button class="hotspot" id="hs-foot" style="left:30%; top:95%;" onclick="selectPart('foot')" title="발 사이즈">
-        👟
-      </button>
+      <button class="hotspot" id="hs-head" style="left:50%; top:11%;" onclick="selectPart('head')">👤</button>
+      <button class="hotspot" id="hs-shoulder" style="left:50%; top:23%;" onclick="selectPart('shoulder')">↔</button>
+      <button class="hotspot" id="hs-chest" style="left:50%; top:33%;" onclick="selectPart('chest')">◉</button>
+      <button class="hotspot" id="hs-arm" style="left:14%; top:42%;" onclick="selectPart('arm')">💪</button>
+      <button class="hotspot" id="hs-waist" style="left:50%; top:42%;" onclick="selectPart('waist')">○</button>
+      <button class="hotspot" id="hs-hip" style="left:50%; top:57%;" onclick="selectPart('hip')">↕</button>
+      <button class="hotspot" id="hs-thigh" style="left:30%; top:68%;" onclick="selectPart('thigh')">┃</button>
+      <button class="hotspot" id="hs-knee" style="left:30%; top:80%;" onclick="selectPart('knee')">⊕</button>
+      <button class="hotspot" id="hs-foot" style="left:30%; top:95%;" onclick="selectPart('foot')">👟</button>
     </div>
   </div>
 
-  <!-- RIGHT: PANEL -->
+  <!-- RIGHT PANEL -->
   <div class="panel">
     <div class="panel-header">
       <div class="panel-title" id="panel-title">신체 정보 입력</div>
@@ -132,18 +538,17 @@
     </div>
 
     <div class="input-area" id="input-area">
-      <!-- 기본 안내 -->
       <div class="input-placeholder" id="placeholder">
         <div class="arrow">←</div>
-        <div>부위를 클릭하면<br>입력창이 나타나요</div>
+        <div id="placeholder-text">부위를 클릭하면<br>입력창이 나타나요</div>
       </div>
 
-      <!-- 머리/모자 -->
+      <!-- HEAD -->
       <div class="measurement-form" id="form-head">
-        <div class="form-title">HEAD / 머리</div>
-        <div class="form-desc">모자 사이즈 및 머리 둘레를 입력하세요.</div>
+        <div class="form-title" id="ft-head">HEAD / 머리</div>
+        <div class="form-desc" id="fd-head">모자 사이즈 및 머리 둘레를 입력하세요.</div>
         <div class="input-group">
-          <label class="input-label">모자 사이즈</label>
+          <label class="input-label" id="fl-hat">모자 사이즈 / Hat Size</label>
           <div class="radio-group" id="radio-hat">
             <div class="radio-btn" onclick="selectRadio('hat','S')">S</div>
             <div class="radio-btn" onclick="selectRadio('hat','M')">M</div>
@@ -153,33 +558,33 @@
           </div>
         </div>
         <div class="input-group">
-          <label class="input-label">머리 둘레 (cm)</label>
-          <input class="input-field" type="number" id="head-circ" placeholder="예: 57" min="50" max="65">
+          <label class="input-label" id="fl-head-circ">머리 둘레 / Head Circumference (cm)</label>
+          <input class="input-field" type="number" id="head-circ" placeholder="예: 57 / e.g. 57">
         </div>
-        <button class="save-btn" onclick="savePart('head')">저장하기</button>
+        <button class="save-btn" onclick="savePart('head')" id="sb-head">저장 / SAVE</button>
       </div>
 
-      <!-- 어깨 -->
+      <!-- SHOULDER -->
       <div class="measurement-form" id="form-shoulder">
-        <div class="form-title">SHOULDER / 어깨</div>
-        <div class="form-desc">어깨 끝에서 끝까지의 너비를 측정하세요.</div>
+        <div class="form-title" id="ft-shoulder">SHOULDER / 어깨</div>
+        <div class="form-desc" id="fd-shoulder">어깨 끝에서 끝까지의 너비를 측정하세요.</div>
         <div class="input-group">
-          <label class="input-label">어깨 너비 (cm)</label>
-          <input class="input-field" type="number" id="shoulder-width" placeholder="예: 44" min="30" max="70">
+          <label class="input-label" id="fl-shoulder">어깨 너비 / Shoulder Width (cm)</label>
+          <input class="input-field" type="number" id="shoulder-width" placeholder="예: 44 / e.g. 44">
         </div>
-        <button class="save-btn" onclick="savePart('shoulder')">저장하기</button>
+        <button class="save-btn" onclick="savePart('shoulder')" id="sb-shoulder">저장 / SAVE</button>
       </div>
 
-      <!-- 가슴/상체 -->
+      <!-- CHEST -->
       <div class="measurement-form" id="form-chest">
-        <div class="form-title">CHEST / 가슴·상체</div>
-        <div class="form-desc">가슴 둘레와 상의 사이즈를 입력하세요.</div>
+        <div class="form-title" id="ft-chest">CHEST / 가슴·상체</div>
+        <div class="form-desc" id="fd-chest">가슴 둘레와 상의 사이즈를 입력하세요.</div>
         <div class="input-group">
-          <label class="input-label">가슴 둘레 (cm)</label>
-          <input class="input-field" type="number" id="chest-circ" placeholder="예: 95" min="60" max="140">
+          <label class="input-label" id="fl-chest-circ">가슴 둘레 / Chest Circumference (cm)</label>
+          <input class="input-field" type="number" id="chest-circ" placeholder="예: 95 / e.g. 95">
         </div>
         <div class="input-group">
-          <label class="input-label">상의 사이즈</label>
+          <label class="input-label" id="fl-top-size">상의 사이즈 / Top Size</label>
           <div class="radio-group" id="radio-top">
             <div class="radio-btn" onclick="selectRadio('top','XS')">XS</div>
             <div class="radio-btn" onclick="selectRadio('top','S')">S</div>
@@ -189,100 +594,100 @@
             <div class="radio-btn" onclick="selectRadio('top','2XL')">2XL</div>
           </div>
         </div>
-        <button class="save-btn" onclick="savePart('chest')">저장하기</button>
+        <button class="save-btn" onclick="savePart('chest')" id="sb-chest">저장 / SAVE</button>
       </div>
 
-      <!-- 팔 -->
+      <!-- ARM -->
       <div class="measurement-form" id="form-arm">
-        <div class="form-title">ARM / 팔</div>
-        <div class="form-desc">손목에서 팔꿈치, 팔꿈치에서 어깨까지 각각 재주세요.</div>
+        <div class="form-title" id="ft-arm">ARM / 팔</div>
+        <div class="form-desc" id="fd-arm">손목에서 팔꿈치, 팔꿈치에서 어깨까지 각각 재주세요.</div>
         <div class="input-row">
           <div class="input-group">
-            <label class="input-label">손목 → 팔꿈치 (cm)</label>
+            <label class="input-label" id="fl-arm-lower">손목→팔꿈치 / Wrist→Elbow (cm)</label>
             <input class="input-field" type="number" id="arm-lower" placeholder="예: 26">
           </div>
           <div class="input-group">
-            <label class="input-label">팔꿈치 → 어깨 (cm)</label>
+            <label class="input-label" id="fl-arm-upper">팔꿈치→어깨 / Elbow→Shoulder (cm)</label>
             <input class="input-field" type="number" id="arm-upper" placeholder="예: 32">
           </div>
         </div>
-        <button class="save-btn" onclick="savePart('arm')">저장하기</button>
+        <button class="save-btn" onclick="savePart('arm')" id="sb-arm">저장 / SAVE</button>
       </div>
 
-      <!-- 허리 -->
+      <!-- WAIST -->
       <div class="measurement-form" id="form-waist">
-        <div class="form-title">WAIST / 허리</div>
-        <div class="form-desc">가장 얇은 허리 부분의 둘레를 측정하세요.</div>
+        <div class="form-title" id="ft-waist">WAIST / 허리</div>
+        <div class="form-desc" id="fd-waist">가장 얇은 허리 부분의 둘레를 측정하세요.</div>
         <div class="input-group">
-          <label class="input-label">허리 둘레 (cm)</label>
-          <input class="input-field" type="number" id="waist-circ" placeholder="예: 78" min="50" max="130">
+          <label class="input-label" id="fl-waist">허리 둘레 / Waist Circumference (cm)</label>
+          <input class="input-field" type="number" id="waist-circ" placeholder="예: 78 / e.g. 78">
         </div>
-        <button class="save-btn" onclick="savePart('waist')">저장하기</button>
+        <button class="save-btn" onclick="savePart('waist')" id="sb-waist">저장 / SAVE</button>
       </div>
 
-      <!-- 골반 -->
+      <!-- HIP -->
       <div class="measurement-form" id="form-hip">
-        <div class="form-title">HIP / 골반</div>
-        <div class="form-desc">골반의 가장 넓은 부분의 둘레를 측정하세요.</div>
+        <div class="form-title" id="ft-hip">HIP / 골반</div>
+        <div class="form-desc" id="fd-hip">골반의 가장 넓은 부분의 둘레를 측정하세요.</div>
         <div class="input-group">
-          <label class="input-label">골반 둘레 (cm)</label>
-          <input class="input-field" type="number" id="hip-circ" placeholder="예: 92" min="60" max="140">
+          <label class="input-label" id="fl-hip">골반 둘레 / Hip Circumference (cm)</label>
+          <input class="input-field" type="number" id="hip-circ" placeholder="예: 92 / e.g. 92">
         </div>
-        <button class="save-btn" onclick="savePart('hip')">저장하기</button>
+        <button class="save-btn" onclick="savePart('hip')" id="sb-hip">저장 / SAVE</button>
       </div>
 
-      <!-- 허벅지~무릎 -->
+      <!-- THIGH -->
       <div class="measurement-form" id="form-thigh">
-        <div class="form-title">THIGH / 복숭아뼈→무릎</div>
-        <div class="form-desc">복숭아뼈 중간에서 무릎 중간까지 길이를 재주세요.</div>
+        <div class="form-title" id="ft-thigh">THIGH / 복숭아뼈→무릎</div>
+        <div class="form-desc" id="fd-thigh">복숭아뼈 중간에서 무릎 중간까지 길이를 재주세요.</div>
         <div class="input-group">
-          <label class="input-label">복숭아뼈 → 무릎 (cm)</label>
-          <input class="input-field" type="number" id="thigh-len" placeholder="예: 38">
+          <label class="input-label" id="fl-thigh-len">복숭아뼈→무릎 / Ankle→Knee (cm)</label>
+          <input class="input-field" type="number" id="thigh-len" placeholder="예: 38 / e.g. 38">
         </div>
         <div class="input-group">
-          <label class="input-label">허벅지 둘레 (cm)</label>
-          <input class="input-field" type="number" id="thigh-circ" placeholder="예: 54">
+          <label class="input-label" id="fl-thigh-circ">허벅지 둘레 / Thigh Circumference (cm)</label>
+          <input class="input-field" type="number" id="thigh-circ" placeholder="예: 54 / e.g. 54">
         </div>
-        <button class="save-btn" onclick="savePart('thigh')">저장하기</button>
+        <button class="save-btn" onclick="savePart('thigh')" id="sb-thigh">저장 / SAVE</button>
       </div>
 
-      <!-- 무릎~골반 -->
+      <!-- KNEE -->
       <div class="measurement-form" id="form-knee">
-        <div class="form-title">KNEE→HIP / 무릎→골반</div>
-        <div class="form-desc">무릎 중간에서 골반 끝까지 길이를 재주세요.</div>
+        <div class="form-title" id="ft-knee">KNEE→HIP / 무릎→골반</div>
+        <div class="form-desc" id="fd-knee">무릎 중간에서 골반 끝까지 길이를 재주세요.</div>
         <div class="input-group">
-          <label class="input-label">무릎 → 골반 끝 (cm)</label>
-          <input class="input-field" type="number" id="knee-len" placeholder="예: 42">
+          <label class="input-label" id="fl-knee">무릎→골반 / Knee→Hip (cm)</label>
+          <input class="input-field" type="number" id="knee-len" placeholder="예: 42 / e.g. 42">
         </div>
-        <button class="save-btn" onclick="savePart('knee')">저장하기</button>
+        <button class="save-btn" onclick="savePart('knee')" id="sb-knee">저장 / SAVE</button>
       </div>
 
-      <!-- 발 -->
+      <!-- FOOT -->
       <div class="measurement-form" id="form-foot">
-        <div class="form-title">FOOT / 발</div>
-        <div class="form-desc">발 길이와 발볼 너비를 입력하세요.</div>
+        <div class="form-title" id="ft-foot">FOOT / 발</div>
+        <div class="form-desc" id="fd-foot">발 길이와 발볼 너비를 입력하세요.</div>
         <div class="input-row">
           <div class="input-group">
-            <label class="input-label">발 사이즈 (mm)</label>
+            <label class="input-label" id="fl-foot-size">발 사이즈 / Foot Size (mm)</label>
             <input class="input-field" type="number" id="foot-size" placeholder="예: 255">
           </div>
           <div class="input-group">
-            <label class="input-label">발볼</label>
-            <div class="radio-group" id="radio-foot" style="flex-direction:column; gap:6px;">
-              <div class="radio-btn" onclick="selectRadio('foot-width','좁음')">좁음</div>
-              <div class="radio-btn" onclick="selectRadio('foot-width','보통')">보통</div>
-              <div class="radio-btn" onclick="selectRadio('foot-width','넓음')">넓음</div>
+            <label class="input-label" id="fl-foot-width">발볼 / Foot Width</label>
+            <div class="radio-group" id="radio-foot-width" style="flex-direction:column; gap:6px;">
+              <div class="radio-btn" id="fw-narrow" onclick="selectRadio('foot-width','narrow')">좁음 / Narrow</div>
+              <div class="radio-btn" id="fw-normal" onclick="selectRadio('foot-width','normal')">보통 / Normal</div>
+              <div class="radio-btn" id="fw-wide" onclick="selectRadio('foot-width','wide')">넓음 / Wide</div>
             </div>
           </div>
         </div>
-        <button class="save-btn" onclick="savePart('foot')">저장하기</button>
+        <button class="save-btn" onclick="savePart('foot')" id="sb-foot">저장 / SAVE</button>
       </div>
     </div>
 
     <!-- Progress -->
     <div class="progress-bar">
       <div class="progress-label">
-        <span>입력 완료</span>
+        <span id="progress-label-text">입력 완료 / Completed</span>
         <span id="progress-text">0 / 9</span>
       </div>
       <div class="progress-track">
@@ -290,23 +695,278 @@
       </div>
     </div>
 
-    <!-- Saved data -->
+    <!-- Saved -->
     <div class="saved-list" id="saved-list" style="display:none;">
-      <div class="saved-list-title">저장된 측정값</div>
+      <div class="saved-list-title" id="saved-title">저장된 측정값 / Saved Measurements</div>
       <div id="saved-items"></div>
     </div>
 
     <!-- CTA -->
     <div class="cta-section">
-      <button class="cta-btn primary" onclick="getRecommendation()">🔥 나에게 맞는 핏 추천받기</button>
-      <button class="cta-btn" onclick="resetAll()">초기화</button>
+      <button class="cta-btn primary" onclick="getRecommendation()" id="cta-recommend">🔥 나에게 맞는 핏 추천받기 / Get My Fit</button>
+      <button class="cta-btn" onclick="resetAll()" id="cta-reset">초기화 / Reset</button>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<script src="main.js"></script>
+<script>
+  let currentLang = 'ko';
+  const measurements = {};
+  const radioSelections = {};
+  let filledCount = 0;
+  const totalParts = 9;
+
+  // Translation data
+  const t = {
+    ko: {
+      headerTag: '나만의 핏 측정기',
+      sectionLabel: '신체 부위를 클릭하세요',
+      panelTitle: '신체 정보 입력',
+      panelSubtitle: '왼쪽 인체 도형의 부위를 클릭해서\n나만의 사이즈를 저장하세요.',
+      placeholderText: '부위를 클릭하면\n입력창이 나타나요',
+      progressLabel: '입력 완료',
+      savedTitle: '저장된 측정값',
+      ctaRecommend: '🔥 나에게 맞는 핏 추천받기',
+      ctaReset: '초기화',
+      saveBtn: '저장하기',
+      toastSaved: '저장 완료! ✓',
+      toastEmpty: '값을 입력해주세요!',
+      toastNoData: '먼저 신체 정보를 입력해주세요!',
+      toastAnalyzing: '핏 분석 중...',
+      toastReady: '준비 완료! (서비스 연동 예정)',
+      toastReady: '준비 완료! (서비스 연동 예정)',
+      toastReset: '초기화 완료',
+      confirmReset: '모든 측정값을 초기화할까요?',
+      parts: {
+        head: '머리/모자', shoulder: '어깨 너비', chest: '가슴/상체',
+        arm: '팔 길이', waist: '허리', hip: '골반',
+        thigh: '복숭아뼈→무릎', knee: '무릎→골반', foot: '발 사이즈'
+      },
+      panelTitles: {
+        head: 'HEAD / 머리', shoulder: 'SHOULDER / 어깨', chest: 'CHEST / 상체',
+        arm: 'ARM / 팔', waist: 'WAIST / 허리', hip: 'HIP / 골반',
+        thigh: 'THIGH / 하체', knee: 'KNEE / 무릎~골반', foot: 'FOOT / 발'
+      },
+      formDescs: {
+        head: '모자 사이즈 및 머리 둘레를 입력하세요.',
+        shoulder: '어깨 끝에서 끝까지의 너비를 측정하세요.',
+        chest: '가슴 둘레와 상의 사이즈를 입력하세요.',
+        arm: '손목에서 팔꿈치, 팔꿈치에서 어깨까지 각각 재주세요.',
+        waist: '가장 얇은 허리 부분의 둘레를 측정하세요.',
+        hip: '골반의 가장 넓은 부분의 둘레를 측정하세요.',
+        thigh: '복숭아뼈 중간에서 무릎 중간까지 길이를 재주세요.',
+        knee: '무릎 중간에서 골반 끝까지 길이를 재주세요.',
+        foot: '발 길이와 발볼 너비를 입력하세요.'
+      }
+    },
+    en: {
+      headerTag: 'My Perfect Fit',
+      sectionLabel: 'Click a body part',
+      panelTitle: 'Body Measurements',
+      panelSubtitle: 'Click on a body part\nto enter your measurements.',
+      placeholderText: 'Click a part\nto open input',
+      progressLabel: 'Completed',
+      savedTitle: 'Saved Measurements',
+      ctaRecommend: '🔥 Get My Fit Recommendation',
+      ctaReset: 'Reset All',
+      saveBtn: 'SAVE',
+      toastSaved: 'Saved! ✓',
+      toastEmpty: 'Please enter a value!',
+      toastNoData: 'Please enter your measurements first!',
+      toastAnalyzing: 'Analyzing your fit...',
+      toastReady: 'Ready! (Service coming soon)',
+      toastReset: 'Reset complete',
+      confirmReset: 'Reset all measurements?',
+      parts: {
+        head: 'Head/Hat', shoulder: 'Shoulder Width', chest: 'Chest/Torso',
+        arm: 'Arm Length', waist: 'Waist', hip: 'Hip',
+        thigh: 'Ankle→Knee', knee: 'Knee→Hip', foot: 'Foot Size'
+      },
+      panelTitles: {
+        head: 'HEAD', shoulder: 'SHOULDER', chest: 'CHEST',
+        arm: 'ARM', waist: 'WAIST', hip: 'HIP',
+        thigh: 'THIGH', knee: 'KNEE → HIP', foot: 'FOOT'
+      },
+      formDescs: {
+        head: 'Enter your hat size and head circumference.',
+        shoulder: 'Measure from shoulder tip to shoulder tip.',
+        chest: 'Enter chest circumference and top size.',
+        arm: 'Measure wrist to elbow and elbow to shoulder.',
+        waist: 'Measure at the narrowest part of your waist.',
+        hip: 'Measure at the widest part of your hips.',
+        thigh: 'Measure from ankle bone to mid-knee.',
+        knee: 'Measure from mid-knee to hip bone.',
+        foot: 'Enter foot length and width.'
+      }
+    }
+  };
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+
+    const tx = t[lang];
+    document.getElementById('header-tag').textContent = tx.headerTag;
+    document.getElementById('section-label').textContent = tx.sectionLabel;
+    document.getElementById('panel-title').textContent = tx.panelTitle;
+    document.getElementById('panel-subtitle').innerHTML = tx.panelSubtitle.replace('\n', '<br>');
+    document.getElementById('placeholder-text').innerHTML = tx.placeholderText.replace('\n', '<br>');
+    document.getElementById('progress-label-text').textContent = tx.progressLabel;
+    document.getElementById('saved-title').textContent = tx.savedTitle;
+    document.getElementById('cta-recommend').textContent = tx.ctaRecommend;
+    document.getElementById('cta-reset').textContent = tx.ctaReset;
+
+    // Update all save buttons
+    document.querySelectorAll('.save-btn').forEach(btn => btn.textContent = tx.saveBtn);
+
+    // Update form descs
+    Object.keys(tx.formDescs).forEach(part => {
+      const el = document.getElementById('fd-' + part);
+      if (el) el.textContent = tx.formDescs[part];
+    });
+
+    // Update saved list
+    updateSavedList();
+  }
+
+  let currentPart = null;
+
+  function selectPart(part) {
+    currentPart = part;
+    document.querySelectorAll('.measurement-form').forEach(f => f.classList.remove('visible'));
+    document.getElementById('placeholder').style.display = 'none';
+    document.getElementById('form-' + part).classList.add('visible');
+    document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+    document.getElementById('hs-' + part).classList.add('active');
+    document.getElementById('panel-title').textContent = t[currentLang].panelTitles[part];
+  }
+
+  function selectRadio(group, value) {
+    radioSelections[group] = value;
+    const container = document.getElementById('radio-' + group);
+    if (container) {
+      container.querySelectorAll('.radio-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.value === value || btn.textContent.split('/')[0].trim() === value || btn.textContent === value);
+      });
+    }
+  }
+
+  function savePart(part) {
+    const tx = t[currentLang];
+    const data = {};
+    let hasData = false;
+
+    if (part === 'head') {
+      data.hat = radioSelections['hat'] || null;
+      data.circ = document.getElementById('head-circ').value;
+      hasData = data.hat || data.circ;
+    } else if (part === 'shoulder') {
+      data.width = document.getElementById('shoulder-width').value;
+      hasData = data.width;
+    } else if (part === 'chest') {
+      data.circ = document.getElementById('chest-circ').value;
+      data.size = radioSelections['top'] || null;
+      hasData = data.circ || data.size;
+    } else if (part === 'arm') {
+      data.lower = document.getElementById('arm-lower').value;
+      data.upper = document.getElementById('arm-upper').value;
+      hasData = data.lower || data.upper;
+    } else if (part === 'waist') {
+      data.circ = document.getElementById('waist-circ').value;
+      hasData = data.circ;
+    } else if (part === 'hip') {
+      data.circ = document.getElementById('hip-circ').value;
+      hasData = data.circ;
+    } else if (part === 'thigh') {
+      data.len = document.getElementById('thigh-len').value;
+      data.circ = document.getElementById('thigh-circ').value;
+      hasData = data.len || data.circ;
+    } else if (part === 'knee') {
+      data.len = document.getElementById('knee-len').value;
+      hasData = data.len;
+    } else if (part === 'foot') {
+      data.size = document.getElementById('foot-size').value;
+      data.width = radioSelections['foot-width'] || null;
+      hasData = data.size || data.width;
+    }
+
+    if (!hasData) { showToast(tx.toastEmpty); return; }
+
+    const isNew = !measurements[part];
+    measurements[part] = data;
+    if (isNew) { filledCount++; document.getElementById('hs-' + part).classList.add('filled'); }
+
+    updateProgress();
+    updateSavedList();
+    showToast(tx.parts[part] + ' ' + tx.toastSaved);
+  }
+
+  function updateProgress() {
+    const pct = (filledCount / totalParts) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = filledCount + ' / ' + totalParts;
+  }
+
+  function updateSavedList() {
+    const tx = t[currentLang];
+    const list = document.getElementById('saved-list');
+    const items = document.getElementById('saved-items');
+    if (Object.keys(measurements).length === 0) { list.style.display = 'none'; return; }
+    list.style.display = 'block';
+
+    let html = '';
+    for (const [part, data] of Object.entries(measurements)) {
+      let valueStr = '';
+      if (part === 'head') valueStr = (data.hat || '') + (data.circ ? ' / ' + data.circ + 'cm' : '');
+      else if (part === 'shoulder') valueStr = data.width + 'cm';
+      else if (part === 'chest') valueStr = (data.circ ? data.circ + 'cm' : '') + (data.size ? ' / ' + data.size : '');
+      else if (part === 'arm') valueStr = (data.lower || '?') + ' + ' + (data.upper || '?') + 'cm';
+      else if (part === 'waist') valueStr = data.circ + 'cm';
+      else if (part === 'hip') valueStr = data.circ + 'cm';
+      else if (part === 'thigh') valueStr = (data.len || '?') + 'cm / ' + (data.circ || '?') + 'cm';
+      else if (part === 'knee') valueStr = data.len + 'cm';
+      else if (part === 'foot') valueStr = (data.size ? data.size + 'mm' : '') + (data.width ? ' / ' + data.width : '');
+
+      html += `<div class="saved-item">
+        <span class="saved-item-label">${tx.parts[part].toUpperCase()}</span>
+        <span class="saved-item-value">${valueStr}</span>
+      </div>`;
+    }
+    items.innerHTML = html;
+  }
+
+  function getRecommendation() {
+    const tx = t[currentLang];
+    if (filledCount === 0) { showToast(tx.toastNoData); return; }
+    showToast('🔥 ' + tx.toastAnalyzing);
+    setTimeout(() => showToast('✓ ' + tx.toastReady), 2000);
+  }
+
+  function resetAll() {
+    const tx = t[currentLang];
+    if (!confirm(tx.confirmReset)) return;
+    Object.keys(measurements).forEach(k => delete measurements[k]);
+    filledCount = 0;
+    document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('filled', 'active'));
+    document.querySelectorAll('.measurement-form').forEach(f => f.classList.remove('visible'));
+    document.getElementById('placeholder').style.display = 'flex';
+    document.getElementById('saved-list').style.display = 'none';
+    document.getElementById('saved-items').innerHTML = '';
+    document.getElementById('panel-title').textContent = tx.panelTitle;
+    updateProgress();
+    showToast(tx.toastReset);
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+</script>
 </body>
 </html>
