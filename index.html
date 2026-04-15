@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FITME — 키보다 중요한 '비율'을 찾는 나만의 핏 도구</title>
-<meta name="description" content="같은 180cm라도 다리 길이는 다릅니다. 핸드폰으로 측정하는 나만의 디테일한 신체 비율 가이드.">
+<title>FITME — 나만의 완벽한 비율 측정 도구 / Proportional Fit Guide</title>
+<meta name="description" content="키보다 중요한 비율을 찾는 디테일한 신체 측정 도구. 스마트폰을 활용한 간편한 측정 가이드를 제공합니다.">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -31,40 +31,41 @@
 
   /* HEADER */
   header {
-    padding: 20px 40px;
+    padding: 16px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--border);
     position: sticky; top: 0;
-    background: rgba(5,5,5,0.8);
+    background: rgba(5,5,5,0.85);
     backdrop-filter: blur(20px);
     z-index: 1000;
   }
 
   .logo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 30px;
-    letter-spacing: 5px;
+    font-size: 28px;
+    letter-spacing: 4px;
     color: var(--accent);
     text-decoration: none;
   }
   .logo span { color: var(--text); }
 
-  nav a {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-    margin-left: 30px;
-    letter-spacing: 1px;
-  }
+  nav { display: flex; gap: 24px; }
+  nav a { color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.3s; }
+  nav a:hover { color: var(--accent); }
+
+  .header-right { display: flex; align-items: center; gap: 20px; }
+  .lang-toggle { display: flex; background: var(--card); border: 1px solid var(--border); border-radius: 100px; padding: 3px; }
+  .lang-btn { padding: 4px 12px; border-radius: 100px; border: none; background: transparent; color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer; }
+  .lang-btn.active { background: var(--accent); color: var(--bg); }
 
   /* MAIN LAYOUT */
   .main-container {
     display: grid;
     grid-template-columns: 1fr 450px;
-    min-height: 100vh;
+    min-height: calc(100vh - 73px);
+    border-bottom: 1px solid var(--border);
   }
 
   /* LEFT: VISUALIZER */
@@ -79,184 +80,70 @@
     border-right: 1px solid var(--border);
   }
 
-  .hero-text {
-    position: absolute; top: 60px; left: 60px;
-    max-width: 400px;
-  }
+  .hero-text { position: absolute; top: 60px; left: 60px; max-width: 450px; }
+  .hero-text h1 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; margin-bottom: 12px; color: var(--accent); }
+  .hero-text p { font-size: 14px; color: var(--muted); }
 
-  .hero-text h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 50px;
-    line-height: 1;
-    margin-bottom: 10px;
-    color: var(--accent);
-  }
-
-  .hero-text p {
-    font-size: 14px;
-    color: var(--muted);
-  }
-
-  .body-box {
-    position: relative;
-    width: 320px;
-    height: 550px;
-    margin-top: 50px;
-  }
-
-  .body-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(232, 255, 71, 0.1)); }
+  .body-box { position: relative; width: 300px; height: 520px; margin-top: 40px; }
+  .body-svg { width: 100%; height: 100%; opacity: 0.9; }
 
   .hotspot {
-    position: absolute;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 2px solid var(--accent);
-    background: rgba(var(--accent-rgb), 0.05);
-    color: var(--accent);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transform: translate(-50%, -50%);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 10;
+    position: absolute; width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--accent);
+    background: rgba(var(--accent-rgb), 0.05); color: var(--accent); font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transform: translate(-50%, -50%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10;
   }
-
-  .hotspot:hover, .hotspot.active {
-    background: var(--accent);
-    color: var(--bg);
-    box-shadow: 0 0 30px var(--accent);
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-
+  .hotspot:hover, .hotspot.active { background: var(--accent); color: var(--bg); box-shadow: 0 0 25px var(--accent); transform: translate(-50%, -50%) scale(1.2); }
   .hotspot.filled { border-color: #47ff8a; color: #47ff8a; }
 
   /* RIGHT: FORM */
-  .form-panel {
-    background: var(--surface);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-  }
-
-  .panel-top {
-    padding: 40px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .panel-top h2 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; }
+  .form-panel { background: var(--surface); display: flex; flex-direction: column; overflow-y: auto; }
+  .panel-top { padding: 40px; border-bottom: 1px solid var(--border); }
+  .panel-top h2 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; }
+  .panel-top p { font-size: 12px; color: #555; margin-top: 4px; }
 
   .form-content { padding: 40px; flex: 1; }
-
-  .phone-tip {
-    background: rgba(232, 255, 71, 0.05);
-    border: 1px solid rgba(232, 255, 71, 0.2);
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    display: flex; gap: 15px; align-items: center;
-  }
-
-  .phone-icon { font-size: 24px; }
-  .phone-tip p { font-size: 12px; color: var(--accent); line-height: 1.4; }
+  .phone-tip { background: rgba(232, 255, 71, 0.05); border: 1px solid rgba(232, 255, 71, 0.15); padding: 16px; border-radius: 12px; margin-bottom: 30px; display: flex; gap: 15px; align-items: center; }
+  .phone-tip p { font-size: 12px; color: var(--accent); line-height: 1.5; }
 
   .input-section { display: none; }
   .input-section.active { display: block; animation: slideUp 0.4s ease; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  .input-group { margin-bottom: 25px; }
+  .input-group { margin-bottom: 24px; }
   .label-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
-  .label-main { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+  .label-main { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
   .label-sub { font-size: 11px; color: var(--accent3); }
 
-  .input-wrapper { position: relative; }
-  .input-main {
-    width: 100%;
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 16px;
-    border-radius: 12px;
-    color: #fff;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.3s;
-  }
+  .input-main { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: #fff; font-size: 15px; outline: none; transition: border-color 0.3s; }
   .input-main:focus { border-color: var(--accent); }
 
-  .phone-measure-hint {
-    margin-top: 8px;
-    font-size: 11px;
-    color: #555;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .save-btn {
-    width: 100%;
-    padding: 18px;
-    background: var(--accent);
-    color: var(--bg);
-    border: none;
-    border-radius: 14px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-
+  .phone-measure-hint { margin-top: 8px; font-size: 11px; color: #444; display: flex; justify-content: space-between; }
+  .save-btn { width: 100%; padding: 18px; background: var(--accent); color: var(--bg); border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
   .save-btn:hover { background: #f5ff80; transform: translateY(-2px); }
 
-  /* SKIN TONE SELECTOR */
-  .tone-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    margin-top: 15px;
-  }
-
-  .tone-circle {
-    aspect-ratio: 1;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: transform 0.2s;
-  }
-
-  .tone-circle:hover { transform: scale(1.1); }
+  .tone-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 12px; }
+  .tone-circle { aspect-ratio: 1; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.2s; }
   .tone-circle.selected { border-color: var(--accent); box-shadow: 0 0 15px rgba(232, 255, 71, 0.4); }
 
-  /* FOOTER & INFO */
-  .info-section {
-    padding: 100px 40px;
-    background: #000;
-  }
+  /* AD INFO SECTION */
+  .info-section { padding: 80px 40px; border-bottom: 1px solid var(--border); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--accent); text-align: center; margin-bottom: 50px; letter-spacing: 3px; }
+  .info-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  .info-card { background: var(--surface); padding: 35px; border-radius: 20px; border: 1px solid var(--border); }
+  .info-card h3 { font-size: 18px; color: var(--accent3); margin-bottom: 15px; }
+  .info-card p { font-size: 14px; color: #aaa; line-height: 1.8; }
 
-  .info-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-  }
+  /* POLICY SECTION */
+  .policy-section { padding: 80px 40px; background: #080808; }
+  .policy-content { max-width: 800px; margin: 0 auto; color: #888; font-size: 14px; line-height: 2; }
+  .policy-content strong { color: var(--text); }
 
-  .info-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--accent); margin-bottom: 20px; }
-  .info-card p { font-size: 14px; color: #888; }
+  footer { padding: 40px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: #444; }
+  .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; }
+  .footer-links a { color: #666; text-decoration: none; }
 
-  footer {
-    padding: 40px;
-    text-align: center;
-    border-top: 1px solid var(--border);
-    font-size: 12px;
-    color: #444;
-  }
-
-  .toast {
-    position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px);
-    background: var(--accent); color: var(--bg); padding: 15px 30px; border-radius: 50px;
-    font-weight: 700; z-index: 2000; transition: transform 0.4s;
-  }
+  .toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent); color: var(--bg); padding: 14px 30px; border-radius: 50px; font-weight: 700; z-index: 2000; transition: transform 0.4s; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
   @media (max-width: 900px) {
@@ -264,6 +151,7 @@
     .visualizer { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 20px; }
     .hero-text { position: relative; top: 0; left: 0; text-align: center; margin-bottom: 30px; }
     .info-grid { grid-template-columns: 1fr; }
+    nav { display: none; }
   }
 </style>
 </head>
@@ -272,20 +160,25 @@
 <header>
   <a href="#" class="logo">FIT<span>ME</span></a>
   <nav>
-    <a href="#app">MEASURE</a>
-    <a href="#philosophy">PHILOSOPHY</a>
-    <a href="#privacy">PRIVACY</a>
+    <a href="#app" class="nav-measure">MEASURE</a>
+    <a href="#guide" class="nav-guide">GUIDE</a>
+    <a href="#privacy" class="nav-privacy">PRIVACY</a>
   </nav>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko">KO</button>
+      <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+    </div>
+  </div>
 </header>
 
 <div id="app" class="main-container">
-  <!-- LEFT -->
+  <!-- LEFT VISUALIZER -->
   <div class="visualizer">
     <div class="hero-text">
-      <h1>NOT JUST HEIGHT,<br>IT'S PROPORTION.</h1>
-      <p>같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.</p>
+      <h1 id="hero-title">NOT JUST HEIGHT,<br>IT'S PROPORTION.</h1>
+      <p id="hero-desc">같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.</p>
     </div>
-
     <div class="body-box">
       <svg class="body-svg" viewBox="0 0 280 480" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="140" cy="52" r="38" stroke="#222" stroke-width="2" fill="#111"/>
@@ -298,7 +191,6 @@
         <path d="M200 268 L208 370 L172 370 L164 268 Z" fill="#111" stroke="#222" stroke-width="2"/>
         <path d="M208 374 L212 460 L172 460 L172 374 Z" fill="#111" stroke="#222" stroke-width="2"/>
       </svg>
-
       <button class="hotspot" id="hs-skin" style="left:50%; top:5%;" onclick="selectPart('skin')">P</button>
       <button class="hotspot" id="hs-shoulder" style="left:50%; top:23%;" onclick="selectPart('shoulder')">01</button>
       <button class="hotspot" id="hs-arm" style="left:15%; top:42%;" onclick="selectPart('arm')">02</button>
@@ -309,27 +201,23 @@
     </div>
   </div>
 
-  <!-- RIGHT -->
+  <!-- RIGHT FORM -->
   <div class="form-panel">
     <div class="panel-top">
       <h2 id="panel-title">START MEASURING</h2>
-      <p style="font-size:12px; color:#555;">왼쪽 인체 모델의 번호를 클릭하세요.</p>
+      <p id="panel-desc">왼쪽 인체 모델의 번호를 클릭하세요.</p>
     </div>
-
     <div class="form-content">
       <div class="phone-tip">
-        <span class="phone-icon">📱</span>
-        <p><strong>자가 없나요?</strong> 스마트폰(iPhone/Galaxy 등)의 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!</p>
+        <p id="phone-tip-text"><strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!</p>
+      </div>
+      <div id="placeholder" style="text-align:center; padding-top:80px; color:#444;">
+        <p id="placeholder-text">인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.</p>
       </div>
 
-      <div id="placeholder" style="text-align:center; padding-top:100px; color:#444;">
-        <p>각 부위의 디테일한 길이를 입력하여<br>완벽한 핏 데이터를 만드세요.</p>
-      </div>
-
-      <!-- SKIN TONE -->
+      <!-- SECTIONS -->
       <div class="input-section" id="section-skin">
         <div class="label-row"><span class="label-main">SKIN TONE / 피부톤</span></div>
-        <p style="font-size:12px; color:#888; margin-bottom:15px;">패션 컬러 매칭을 위해 당신의 피부톤을 선택해주세요.</p>
         <div class="tone-grid">
           <div class="tone-circle" style="background:#f9ebe0;" onclick="selectTone(this, 'pale')"></div>
           <div class="tone-circle" style="background:#f3d6c1;" onclick="selectTone(this, 'light')"></div>
@@ -337,23 +225,18 @@
           <div class="tone-circle" style="background:#d08b5b;" onclick="selectTone(this, 'tan')"></div>
           <div class="tone-circle" style="background:#7b4b2a;" onclick="selectTone(this, 'dark')"></div>
         </div>
-        <div style="margin-top:30px;"><button class="save-btn" onclick="saveData('skin')">SAVE TONE</button></div>
+        <button class="save-btn" onclick="saveData('skin')" id="btn-save-skin">SAVE TONE</button>
       </div>
 
-      <!-- SHOULDER -->
       <div class="input-section" id="section-shoulder">
         <div class="input-group">
-          <div class="label-row">
-            <span class="label-main">어깨 너비 / Shoulder Width</span>
-            <span class="label-sub">표준: 40~48cm</span>
-          </div>
-          <input type="number" class="input-main" id="val-shoulder" placeholder="측정값 입력 (cm)">
-          <div class="phone-measure-hint"><span>1폰 = 15cm</span><span>2폰 = 30cm</span><span>3폰 = 45cm</span></div>
+          <div class="label-row"><span class="label-main">어깨 너비 / Shoulder Width</span></div>
+          <input type="number" class="input-main" id="val-shoulder" placeholder="cm">
+          <div class="phone-measure-hint"><span>1폰 ≈ 15cm</span><span>2폰 ≈ 30cm</span><span>3폰 ≈ 45cm</span></div>
         </div>
         <button class="save-btn" onclick="saveData('shoulder')">SAVE</button>
       </div>
 
-      <!-- ARM SEGMENTS -->
       <div class="input-section" id="section-arm">
         <div class="input-group">
           <div class="label-row"><span class="label-main">어깨 ~ 팔꿈치 / Shoulder to Elbow</span></div>
@@ -366,80 +249,132 @@
         <button class="save-btn" onclick="saveData('arm')">SAVE ARM RATIO</button>
       </div>
 
-      <!-- WAIST -->
       <div class="input-section" id="section-waist">
         <div class="input-group">
-          <div class="label-row"><span class="label-main">허리 둘레 / Waist Circumference</span></div>
-          <input type="number" class="input-main" id="val-waist" placeholder="inch 또는 cm">
+          <div class="label-row">
+            <span class="label-main">허리 둘레 / Waist (Inch)</span>
+            <span class="label-sub" id="label-waist-tip">기성복 바지 사이즈 기준</span>
+          </div>
+          <input type="number" class="input-main" id="val-waist" placeholder="inch (예: 32)">
         </div>
-        <button class="save-btn" onclick="saveData('waist')">SAVE</button>
+        <button class="save-btn" onclick="saveData('waist')">SAVE INCH</button>
       </div>
 
-      <!-- KNEE TO HIP -->
       <div class="input-section" id="section-knee">
         <div class="label-row"><span class="label-main">무릎 ~ 골반 끝 / Knee to Hip</span></div>
         <input type="number" class="input-main" id="val-knee-hip" placeholder="cm">
-        <div class="phone-measure-hint"><span>대략 핸드폰 3개 정도의 길이입니다.</span></div>
-        <div style="margin-top:20px;"><button class="save-btn" onclick="saveData('knee')">SAVE</button></div>
+        <button class="save-btn" onclick="saveData('knee')">SAVE</button>
       </div>
 
-      <!-- ANKLE TO KNEE -->
       <div class="input-section" id="section-ankle">
-        <div class="label-row"><span class="label-main">복숭아뼈 ~ 무릎 중간 / Ankle to Knee</span></div>
+        <div class="label-row"><span class="label-main">복숭아뼈 ~ 무릎 / Ankle to Knee</span></div>
         <input type="number" class="input-main" id="val-ankle-knee" placeholder="cm">
-        <div class="phone-measure-hint"><span>다리가 길어 보이는 핵심 포인트!</span></div>
-        <div style="margin-top:20px;"><button class="save-btn" onclick="saveData('ankle')">SAVE</button></div>
+        <button class="save-btn" onclick="saveData('ankle')">SAVE</button>
       </div>
 
-      <!-- FOOT -->
       <div class="input-section" id="section-foot">
         <div class="input-group">
           <div class="label-row"><span class="label-main">발 사이즈 / Foot Size</span></div>
-          <input type="number" class="input-main" id="val-foot" placeholder="mm (예: 270)">
+          <input type="number" class="input-main" id="val-foot" placeholder="mm">
         </div>
         <button class="save-btn" onclick="saveData('foot')">SAVE</button>
       </div>
-
     </div>
   </div>
 </div>
 
-<section class="info-section" id="philosophy">
+<section id="guide" class="info-section">
+  <h2 class="section-title" id="guide-title">MEASUREMENT GUIDE</h2>
   <div class="info-grid">
     <div class="info-card">
-      <h3>BEYOND THE SIZE</h3>
-      <p>단순한 S, M, L은 당신을 설명하지 못합니다. 상체와 하체의 비율, 어깨의 각도, 다리의 세부 마디 길이에 따라 '기성복'을 '맞춤복'처럼 입는 법을 제안합니다.</p>
+      <h3 id="card-1-t">비율이 핏을 결정합니다</h3>
+      <p id="card-1-p">단순히 키와 몸무게만으로는 당신의 실루엣을 알 수 없습니다. 상체와 하체의 비율, 종아리와 허벅지의 비례를 측정하여 기성복 쇼핑의 실패를 줄이세요.</p>
     </div>
     <div class="info-card">
-      <h3>PHONE RULER</h3>
-      <p>전문적인 도구가 없어도 괜찮습니다. 주머니 속의 스마트폰을 기준으로 한 뼘, 두 뼘 측정하며 당신의 실루엣을 기록하세요. 우리가 데이터를 완성합니다.</p>
-    </div>
-    <div class="info-card">
-      <h3>SKIN & COLOR</h3>
-      <p>핏만큼 중요한 것은 톤입니다. 피부톤 데이터를 기반으로 당신의 신체 비율을 가장 돋보이게 할 컬러 조합과 소재감을 추천합니다.</p>
+      <h3 id="card-2-t">핸드폰 측정 가이드</h3>
+      <p id="card-2-p">자가 없어도 괜찮습니다. 일반적인 스마트폰의 세로 길이는 약 15~16cm입니다. 손가락 한 뼘(약 18~20cm)이나 핸드폰 길이를 활용해 간편하게 측정해보세요.</p>
     </div>
   </div>
 </section>
 
+<section id="privacy" class="policy-section">
+  <div class="policy-content">
+    <h2 id="policy-title" style="color:var(--accent); margin-bottom:30px; font-family:'Bebas Neue'; letter-spacing:2px;">PRIVACY POLICY</h2>
+    <p id="policy-text">
+      <strong>데이터 저장:</strong> FITME는 사용자가 입력한 어떠한 신체 정보도 서버에 저장하지 않습니다. 모든 데이터는 브라우저 세션에만 임시로 존재하며 종료 시 삭제됩니다.<br>
+      <strong>애드센스 광고:</strong> 본 사이트는 구글 애드센스를 포함하고 있으며, 광고 노출을 위해 비개인적 쿠키 데이터가 사용될 수 있습니다.<br>
+      <strong>개인정보 보호:</strong> 사용자의 실제 이름, 이메일, 위치 등 식별 가능한 정보를 요구하지 않습니다.
+    </p>
+  </div>
+</section>
+
 <footer>
-  <p id="privacy">&copy; 2024 FITME. DATA IS STORED LOCALLY IN YOUR BROWSER. NO SERVER STORAGE.</p>
+  <div class="footer-links">
+    <a href="#app">Home</a>
+    <a href="#guide">Guide</a>
+    <a href="#privacy">Privacy</a>
+  </div>
+  <p>&copy; 2024 FITME. All Rights Reserved.</p>
 </footer>
 
 <div class="toast" id="toast">SAVED</div>
 
 <script>
-  let currentPart = null;
+  let currentLang = 'ko';
+  const t = {
+    ko: {
+      heroTitle: 'NOT JUST HEIGHT,\nIT\'S PROPORTION.',
+      heroDesc: '같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.',
+      panelTitle: '측정 시작하기',
+      panelDesc: '인체 모델의 번호를 클릭하세요.',
+      phoneTip: '<strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!',
+      placeholder: '인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.',
+      guideTitle: '측정 가이드',
+      policyTitle: '개인정보처리방침',
+      waistTip: '기성복 바지 사이즈 기준',
+      btnSaveSkin: '피부톤 저장',
+      toast: '저장 완료!'
+    },
+    en: {
+      heroTitle: 'NOT JUST HEIGHT,\nIT\'S PROPORTION.',
+      heroDesc: 'Same height, different leg length. Find your real proportions beyond standard sizing.',
+      panelTitle: 'START MEASURING',
+      panelDesc: 'Click a number on the body model.',
+      phoneTip: '<strong>No ruler?</strong> A smartphone is about <strong>15-16cm</strong> long. Use it to estimate your measurements!',
+      placeholder: 'Click a body part to open input fields.',
+      guideTitle: 'MEASUREMENT GUIDE',
+      policyTitle: 'PRIVACY POLICY',
+      waistTip: 'Based on trouser size',
+      btnSaveSkin: 'SAVE TONE',
+      toast: 'SAVED SUCCESSFULLY!'
+    }
+  };
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    
+    const d = t[lang];
+    document.getElementById('hero-title').innerHTML = d.heroTitle.replace('\n', '<br>');
+    document.getElementById('hero-desc').textContent = d.heroDesc;
+    document.getElementById('panel-title').textContent = d.panelTitle;
+    document.getElementById('panel-desc').textContent = d.panelDesc;
+    document.getElementById('phone-tip-text').innerHTML = d.phoneTip;
+    document.getElementById('placeholder-text').innerHTML = d.placeholder;
+    document.getElementById('guide-title').textContent = d.guideTitle;
+    document.getElementById('policy-title').textContent = d.policyTitle;
+    document.getElementById('label-waist-tip').textContent = d.waistTip;
+    document.getElementById('btn-save-skin').textContent = d.btnSaveSkin;
+  }
 
   function selectPart(part) {
-    currentPart = part;
     document.querySelectorAll('.input-section').forEach(s => s.classList.remove('active'));
     document.getElementById('placeholder').style.display = 'none';
     document.getElementById('section-' + part).classList.add('active');
-
     document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
     document.getElementById('hs-' + part).classList.add('active');
-
-    document.getElementById('panel-title').textContent = part.toUpperCase() + ' MEASUREMENT';
+    document.getElementById('panel-title').textContent = part.toUpperCase() + ' INPUT';
   }
 
   function selectTone(el, tone) {
@@ -448,17 +383,16 @@
   }
 
   function saveData(part) {
-    showToast(part.toUpperCase() + ' DATA RECORDED');
+    showToast(t[currentLang].toast);
     document.getElementById('hs-' + part).classList.add('filled');
   }
 
   function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
   }
 </script>
-
 </body>
 </html>
