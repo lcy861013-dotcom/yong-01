@@ -1,648 +1,732 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FITME — 나만의 완벽한 비율 측정 도구 / Proportional Fit Guide</title>
-<meta name="description" content="키보다 중요한 비율을 찾는 디테일한 신체 측정 도구. 스마트폰을 활용한 간편한 측정 가이드를 제공합니다.">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #050505;
-    --surface: #0f0f0f;
-    --card: #181818;
-    --accent: #e8ff47;
-    --accent-rgb: 232, 255, 71;
-    --accent3: #47c8ff;
-    --text: #f0f0f0;
-    --muted: #777;
-    --border: #222;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITME — Global Body Proportion Guide & Measurement Tool</title>
+    
+    <!-- SEO & AdSense Optimization -->
+    <meta name="description" content="Free professional body proportion measurement tool. Calculate your perfect clothing fit, shoulder-to-waist ratio, and more. Supporting 15+ global languages.">
+    <meta name="keywords" content="body measurement, tailor guide, clothing size calculator, body proportion, fitness ratio, fitme, global size guide">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;700&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FITME",
+      "description": "Global Body Measurement and Proportion Tool",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web"
+    }
+    </script>
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+    <style>
+        :root {
+            --bg: #050505;
+            --surface: #0f0f0f;
+            --card: #161616;
+            --accent: #e8ff47;
+            --text: #ffffff;
+            --muted: #888888;
+            --border: #222222;
+        }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans KR', sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans KR', 'DM Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-  /* HEADER */
-  header {
-    padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    position: sticky; top: 0;
-    background: rgba(5,5,5,0.85);
-    backdrop-filter: blur(20px);
-    z-index: 1000;
-  }
+        .ads-placeholder {
+            background: var(--card);
+            border: 1px solid var(--border);
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            border-radius: 8px;
+            max-width: 100%;
+        }
 
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .logo span { color: var(--text); }
+        header {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; background: rgba(5,5,5,0.9); backdrop-filter: blur(10px); z-index: 1000;
+        }
 
-  nav { display: flex; gap: 24px; }
-  nav a { color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.3s; }
-  nav a:hover { color: var(--accent); }
+        .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; color: var(--accent); text-decoration: none; }
+        .logo span { color: #fff; }
 
-  .header-right { display: flex; align-items: center; gap: 20px; }
-  .lang-toggle { display: flex; background: var(--card); border: 1px solid var(--border); border-radius: 100px; padding: 3px; }
-  .lang-btn { padding: 4px 12px; border-radius: 100px; border: none; background: transparent; color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer; }
-  .lang-btn.active { background: var(--accent); color: var(--bg); }
+        .lang-select {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+        }
 
-  /* MAIN LAYOUT */
-  .main-container {
-    display: grid;
-    grid-template-columns: 1fr 450px;
-    min-height: calc(100vh - 73px);
-    border-bottom: 1px solid var(--border);
-  }
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            min-height: calc(100vh - 70px);
+        }
 
-  /* LEFT: VISUALIZER */
-  .visualizer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px;
-    background: radial-gradient(circle at center, #111 0%, #050505 100%);
-    position: relative;
-    border-right: 1px solid var(--border);
-  }
+        .visual-section {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid var(--border);
+            background: radial-gradient(circle at center, #111 0%, #050505 100%);
+            position: relative;
+        }
 
-  .hero-text { position: absolute; top: 60px; left: 60px; max-width: 450px; }
-  .hero-text h1 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; margin-bottom: 12px; color: var(--accent); }
-  .hero-text p { font-size: 14px; color: var(--muted); }
+        .visual-header { text-align: center; max-width: 600px; }
+        .visual-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--accent); line-height: 1; margin-bottom: 10px; }
+        .visual-header p { color: var(--muted); font-size: 14px; }
 
-  .body-box { position: relative; width: 300px; height: 520px; margin-top: 40px; }
-  .body-svg { width: 100%; height: 100%; opacity: 0.9; }
+        .body-box { position: relative; width: 300px; height: 500px; margin: 50px 0; }
+        .body-svg { width: 100%; height: 100%; opacity: 0.25; transition: 0.5s; }
 
-  .hotspot {
-    position: absolute; width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--accent);
-    background: rgba(var(--accent-rgb), 0.05); color: var(--accent); font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transform: translate(-50%, -50%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10;
-  }
-  .hotspot:hover, .hotspot.active { background: var(--accent); color: var(--bg); box-shadow: 0 0 25px var(--accent); transform: translate(-50%, -50%) scale(1.2); }
-  .hotspot.filled { border-color: #47ff8a; color: #47ff8a; }
+        .hotspot {
+            position: absolute; width: 36px; height: 36px; border-radius: 50%;
+            border: 2px solid var(--accent); background: rgba(232,255,71,0.1);
+            color: var(--accent); font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transform: translate(-50%, -50%); transition: 0.3s; z-index: 10;
+            font-family: 'Bebas Neue', sans-serif; font-size: 16px;
+        }
+        .hotspot:hover, .hotspot.active { background: var(--accent); color: #000; scale: 1.15; box-shadow: 0 0 30px var(--accent); }
+        .hotspot.filled { border-color: #47ff8a; color: #47ff8a; background: rgba(71, 255, 138, 0.1); }
 
-  /* SHORTCUT HINT */
-  .shortcut-hint {
-    position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); border: 1px solid var(--border);
-    padding: 10px 18px; border-radius: 12px; color: #666; font-size: 11px; z-index: 100; pointer-events: none;
-    display: flex; gap: 12px; backdrop-filter: blur(10px);
-  }
-  .shortcut-hint kbd {
-    background: #222; color: var(--accent); padding: 2px 6px; border-radius: 4px; font-family: 'Bebas Neue', sans-serif;
-    border: 1px solid #333; margin-right: 4px; font-size: 12px;
-  }
+        .input-panel {
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
 
-  /* RIGHT: FORM */
-  .form-panel { background: var(--surface); display: flex; flex-direction: column; overflow-y: auto; scroll-margin-top: 73px; }
-  .panel-top { padding: 40px; border-bottom: 1px solid var(--border); }
-  .panel-top h2 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; }
-  .panel-top p { font-size: 12px; color: #555; margin-top: 4px; }
+        .panel-padding { padding: 30px; }
+        .form-section { display: none; animation: slideUp 0.4s ease; }
+        .form-section.active { display: block; }
 
-  .form-content { padding: 40px; flex: 1; }
-  .phone-tip { background: rgba(232, 255, 71, 0.05); border: 1px solid rgba(232, 255, 71, 0.15); padding: 16px; border-radius: 12px; margin-bottom: 30px; display: flex; gap: 15px; align-items: center; }
-  .phone-tip p { font-size: 12px; color: var(--accent); line-height: 1.5; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-  .input-section { display: none; }
-  .input-section.active { display: block; animation: slideUp 0.4s ease; }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .form-section h3 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; }
+        .form-section p { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
 
-  .measure-guide-box { background: #1a1a1a; padding: 20px; border-radius: 12px; margin-bottom: 24px; border-left: 3px solid var(--accent3); }
-  .measure-guide-box h4 { font-size: 13px; color: var(--accent3); margin-bottom: 8px; font-weight: 700; }
-  .measure-guide-box p { font-size: 12px; color: #aaa; line-height: 1.6; }
-  .measure-guide-box .example-img { width: 100%; height: 120px; background: #222; border-radius: 8px; margin-top: 10px; display: flex; align-items: center; justify-content: center; color: #444; font-size: 11px; overflow: hidden; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
+        input, select {
+            width: 100%; padding: 14px; background: var(--card); border: 1px solid var(--border);
+            color: #fff; border-radius: 8px; outline: none; transition: 0.3s; font-size: 14px;
+        }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(232,255,71,0.2); }
 
-  .input-group { margin-bottom: 24px; }
-  .label-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
-  .label-main { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .label-sub { font-size: 11px; color: var(--accent3); }
+        .btn-save {
+            width: 100%; padding: 18px; background: var(--accent); color: #000;
+            border: none; border-radius: 10px; font-family: 'Bebas Neue', sans-serif; 
+            font-size: 20px; letter-spacing: 2px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-save:hover { background: #f5ff80; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(232,255,71,0.3); }
 
-  .input-main { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 16px; border-radius: 12px; color: #fff; font-size: 15px; outline: none; transition: border-color 0.3s; }
-  .input-main:focus { border-color: var(--accent); }
+        .seo-content { padding: 100px 30px; max-width: 1100px; margin: 0 auto; }
+        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .info-card { background: var(--card); padding: 35px; border-radius: 20px; border: 1px solid var(--border); }
+        .info-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent); margin-bottom: 15px; }
+        .info-card p { color: #aaa; font-size: 15px; line-height: 1.8; }
 
-  .phone-measure-hint { margin-top: 8px; font-size: 11px; color: #444; display: flex; justify-content: space-between; }
-  .save-btn { width: 100%; padding: 18px; background: var(--accent); color: var(--bg); border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
-  .save-btn:hover { background: #f5ff80; transform: translateY(-2px); }
+        .legal-section { padding: 60px 30px; background: #080808; border-top: 1px solid var(--border); }
+        .legal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; max-width: 1100px; margin: 0 auto; }
+        .legal-box h4 { font-size: 14px; color: #fff; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .legal-box p { font-size: 12px; color: #666; line-height: 2; }
 
-  .tone-grid { display: flex; gap: 12px; margin-bottom: 20px; }
-  .tone-circle { width: 45px; height: 45px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.3s; }
-  .tone-circle:hover { transform: scale(1.1); }
-  .tone-circle.selected { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        footer { padding: 60px; text-align: center; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); }
+        .footer-links { margin-bottom: 25px; }
+        .footer-links a { color: var(--muted); margin: 0 15px; text-decoration: none; transition: 0.3s; }
+        .footer-links a:hover { color: var(--accent); }
 
-  /* ANALYSIS BUTTON AREA */
-  .analysis-area { padding: 40px; border-top: 1px solid var(--border); background: #0c0c0c; }
-  .btn-analyze { width: 100%; padding: 20px; background: #fff; color: #000; border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.3; }
-  .btn-analyze.ready { opacity: 1; background: var(--accent); }
-  .btn-analyze.ready:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.3); }
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--accent); color: #000; padding: 15px 30px; border-radius: 50px;
+            font-weight: bold; transition: 0.4s; z-index: 2000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* RESULT OVERLAY */
-  #result-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(25px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
-  .result-card { background: #111; border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 850px; max-height: 90vh; overflow-y: auto; position: relative; padding: 60px 40px; }
-  .close-result { position: absolute; top: 30px; right: 30px; background: transparent; border: none; color: #fff; font-size: 30px; cursor: pointer; }
-  .result-title { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--accent); text-align: center; margin-bottom: 40px; letter-spacing: 3px; }
-  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-  .result-visual { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #080808; border-radius: 24px; padding: 40px; border: 1px solid #222; }
-  .body-type-img { width: 100%; max-width: 220px; height: auto; filter: drop-shadow(0 0 20px rgba(var(--accent-rgb), 0.2)); }
-  .result-info h3 { font-size: 22px; color: #fff; margin-bottom: 15px; font-weight: 700; }
-  .result-info p { color: #aaa; font-size: 15px; margin-bottom: 25px; line-height: 1.8; }
-  .style-tip { background: #1a1a1a; padding: 25px; border-radius: 18px; border-left: 4px solid var(--accent); }
-  .style-tip h4 { font-size: 14px; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; font-weight: 700; }
-  .style-tip ul { list-style: none; color: #ccc; font-size: 14px; }
-  .style-tip li { margin-bottom: 8px; position: relative; padding-left: 15px; }
-  .style-tip li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
-
-  /* AD INFO SECTION */
-  .info-section { padding: 80px 40px; border-bottom: 1px solid var(--border); }
-  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--accent); text-align: center; margin-bottom: 50px; letter-spacing: 3px; }
-  .info-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-  .info-card { background: var(--surface); padding: 35px; border-radius: 20px; border: 1px solid var(--border); }
-  .info-card h3 { font-size: 18px; color: var(--accent3); margin-bottom: 15px; }
-  .info-card p { font-size: 14px; color: #aaa; line-height: 1.8; }
-
-  .policy-section { padding: 80px 40px; background: #080808; }
-  .policy-content { max-width: 800px; margin: 0 auto; color: #888; font-size: 14px; line-height: 2; }
-  footer { padding: 40px; text-align: center; border-top: 1px solid var(--border); font-size: 12px; color: #444; }
-  .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; }
-  .footer-links a { color: #666; text-decoration: none; }
-
-  .toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--accent); color: var(--bg); padding: 14px 30px; border-radius: 50px; font-weight: 700; z-index: 2000; transition: transform 0.4s; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  @media (max-width: 900px) {
-    .main-container { grid-template-columns: 1fr; }
-    .visualizer { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 20px; min-height: 550px; }
-    .hero-text { position: relative; top: 0; left: 0; text-align: center; margin-bottom: 20px; }
-    .hero-text h1 { font-size: 32px; }
-    .body-box { width: 260px; height: 450px; }
-    .info-grid { grid-template-columns: 1fr; }
-    nav { display: none; }
-    .result-grid { grid-template-columns: 1fr; }
-    .shortcut-hint { display: none; }
-  }
-</style>
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .visual-section { border-right: none; border-bottom: 1px solid var(--border); }
+            .visual-header h1 { font-size: 38px; }
+        }
+    </style>
 </head>
 <body>
 
-<header id="top">
-  <a href="#" class="logo">FIT<span>ME</span></a>
-  <nav>
-    <a href="#app" class="nav-measure">MEASURE</a>
-    <a href="#guide" class="nav-guide">GUIDE</a>
-    <a href="#privacy" class="nav-privacy">PRIVACY</a>
-  </nav>
-  <div class="header-right">
-    <div class="lang-toggle">
-      <div style="padding: 0 4px 0 8px; display: flex; align-items: center; color: var(--muted);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
-      <button class="lang-btn active" onclick="setLang(\'ko\')" id="btn-ko">KO</button>
-      <button class="lang-btn" onclick="setLang(\'en\')" id="btn-en">EN</button>
-      <select class="lang-select" onchange="setLang(this.value)" id="lang-more" style="background:transparent; border:none; color:var(--muted); font-size:11px; font-weight:700; cursor:pointer; outline:none; padding-right:10px;">
-        <option value="" disabled selected>MORE</option>
-        <option value="jp">JP (日本語)</option>
-        <option value="cn">CN (简体中文)</option>
-        <option value="es">ES (Español)</option>
-        <option value="fr">FR (Français)</option>
-        <option value="de">DE (Deutsch)</option>
-        <option value="ru">RU (Русский)</option>
-        <option value="it">IT (Italiano)</option>
-        <option value="vn">VN (Tiếng Việt)</option>
-        <option value="th">TH (ไทย)</option>
-      </select>
-    </div>
-  </div>
+<header>
+    <a href="/" class="logo">FIT<span>ME</span></a>
+    <select class="lang-select" onchange="changeLang(this.value)" id="langPicker">
+        <option value="ko">한국어 (Korean)</option>
+        <option value="en">English</option>
+        <option value="jp">日本語 (Japanese)</option>
+        <option value="cn">简体中文 (Chinese)</option>
+        <option value="es">Español (Spanish)</option>
+        <option value="fr">Français (French)</option>
+        <option value="de">Deutsch (German)</option>
+        <option value="ru">Русский (Russian)</option>
+        <option value="it">Italiano (Italian)</option>
+        <option value="pt">Português (Portuguese)</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="ar">العربية (Arabic)</option>
+        <option value="vi">Tiếng Việt (Vietnamese)</option>
+        <option value="th">ไทย (Thai)</option>
+        <option value="id">Bahasa Indonesia</option>
+    </select>
 </header>
 
-<style>
-  .lang-select option { background: var(--card); color: var(--text); }
-</style>
-
-<div id="app" class="main-container">
-  <div class="visualizer">
-    <div class="hero-text">
-      <h1 id="hero-title">NOT JUST HEIGHT,<br>IT\'S PROPORTION.</h1>
-      <p id="hero-desc">같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.</p>
-    </div>
-    <div class="body-box">
-      <svg class="body-svg" viewBox="0 0 280 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="140" cy="52" r="38" stroke="#222" stroke-width="2" fill="#111"/>
-        <path d="M88 108 L192 108 L200 240 L80 240 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M88 112 L52 200 L62 204 L98 118" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M192 112 L228 200 L218 204 L182 118" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M80 240 L78 270 L202 270 L200 240 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M80 268 L72 370 L108 370 L116 268 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M72 374 L68 460 L108 460 L108 374 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M200 268 L208 370 L172 370 L164 268 Z" fill="#111" stroke="#222" stroke-width="2"/>
-        <path d="M208 374 L212 460 L172 460 L172 374 Z" fill="#111" stroke="#222" stroke-width="2"/>
-      </svg>
-      <button class="hotspot" id="hs-skin" style="left:50%; top:5%;" onclick="selectPart(\'skin\')">P</button>
-      <button class="hotspot" id="hs-shoulder" style="left:50%; top:23%;" onclick="selectPart(\'shoulder\')">01</button>
-      <button class="hotspot" id="hs-arm" style="left:15%; top:42%;" onclick="selectPart(\'arm\')">02</button>
-      <button class="hotspot" id="hs-waist" style="left:50%; top:42%;" onclick="selectPart(\'waist\')">03</button>
-      <button class="hotspot" id="hs-knee" style="left:30%; top:68%;" onclick="selectPart(\'knee\')">04</button>
-      <button class="hotspot" id="hs-ankle" style="left:30%; top:85%;" onclick="selectPart(\'ankle\')">05</button>
-      <button class="hotspot" id="hs-foot" style="left:30%; top:96%;" onclick="selectPart(\'foot\')">06</button>
-    </div>
-  </div>
-
-  <div class="form-panel" id="input-target">
-    <div class="panel-top">
-      <h2 id="panel-title">START MEASURING</h2>
-      <p id="panel-desc">왼쪽 인체 모델의 번호를 클릭하세요.</p>
-    </div>
-    <div class="form-content">
-      <div class="phone-tip">
-        <p id="phone-tip-text"><strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!</p>
-      </div>
-      <div id="placeholder" style="text-align:center; padding-top:80px; color:#444;">
-        <p id="placeholder-text">인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.</p>
-      </div>
-
-      <!-- SECTIONS -->
-      <div class="input-section" id="section-skin">
-        <div class="measure-guide-box">
-          <h4 id="guide-skin-t">피부톤 선택</h4>
-          <p id="guide-skin-p">자신의 피부톤과 가장 유사한 컬러를 선택해주세요. 퍼스널 컬러 분석의 기초가 됩니다.</p>
-        </div>
-        <div class="label-row"><span class="label-main">SKIN TONE / 피부톤</span></div>
-        <div class="tone-grid">
-          <div class="tone-circle" style="background:#f9ebe0;" onclick="selectTone(this, \'pale\')"></div>
-          <div class="tone-circle" style="background:#f3d6c1;" onclick="selectTone(this, \'light\')"></div>
-          <div class="tone-circle" style="background:#e8b999;" onclick="selectTone(this, \'medium\')"></div>
-          <div class="tone-circle" style="background:#d08b5b;" onclick="selectTone(this, \'tan\')"></div>
-          <div class="tone-circle" style="background:#7b4b2a;" onclick="selectTone(this, \'dark\')"></div>
-        </div>
-        <button class="save-btn" onclick="saveData(\'skin\')" id="btn-save-skin">SAVE TONE</button>
-      </div>
-
-      <div class="input-section" id="section-shoulder">
-        <div class="measure-guide-box">
-          <h4 id="guide-shoulder-t">어깨 너비 측정법</h4>
-          <p id="guide-shoulder-p">왼쪽 어깨 끝점부터 오른쪽 어깨 끝점까지 일직선으로 측정하세요. 줄자가 없다면 스마트폰 3개 정도의 길이를 확인해보세요.</p>
-          <div class="example-img">SHOULDER TIP: 3 PHONES ≈ 45CM</div>
-        </div>
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">어깨 너비 / Shoulder Width</span></div>
-          <input type="number" class="input-main" id="val-shoulder" placeholder="cm">
-          <div class="phone-measure-hint"><span>1폰 ≈ 15cm</span><span>2폰 ≈ 30cm</span><span>3폰 ≈ 45cm</span></div>
-        </div>
-        <button class="save-btn" onclick="saveData(\'shoulder\')">SAVE</button>
-      </div>
-
-      <div class="input-section" id="section-arm">
-        <div class="measure-guide-box">
-          <h4 id="guide-arm-t">팔 길이 비율</h4>
-          <p id="guide-arm-p">상완(어깨~팔꿈치)과 하완(팔꿈치~손목)을 나누어 측정하면 더 정확한 소매 기수 추천이 가능합니다.</p>
-        </div>
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">어깨 ~ 팔꿈치 / Shoulder to Elbow</span></div>
-          <input type="number" class="input-main" id="val-arm-upper" placeholder="cm">
-        </div>
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">팔꿈치 ~ 손목 / Elbow to Wrist</span></div>
-          <input type="number" class="input-main" id="val-arm-lower" placeholder="cm">
-        </div>
-        <button class="save-btn" onclick="saveData(\'arm\')">SAVE ARM RATIO</button>
-      </div>
-
-      <div class="input-section" id="section-waist">
-        <div class="measure-guide-box">
-          <h4 id="guide-waist-t">허리 및 골반</h4>
-          <p id="guide-waist-p">평소 입으시는 바지의 인치(Inch) 사이즈를 입력해주세요. 골반 바지라면 실제 허리보다 크게 측정될 수 있습니다.</p>
-        </div>
-        <div class="input-group">
-          <div class="label-row">
-            <span class="label-main">허리 둘레 / Waist (Inch)</span>
-            <span class="label-sub" id="label-waist-tip">기성복 바지 사이즈 기준</span>
-          </div>
-          <input type="number" class="input-main" id="val-waist" placeholder="inch (예: 32)">
-        </div>
-        <button class="save-btn" onclick="saveData(\'waist\')">SAVE INCH</button>
-      </div>
-
-      <div class="input-section" id="section-knee">
-        <div class="measure-guide-box">
-          <h4 id="guide-knee-t">허벅지 기장 (인심)</h4>
-          <p id="guide-knee-p">골반 뼈 끝부터 무릎 중앙까지의 길이를 측정하세요. 다리 전체 비율을 결정하는 중요한 수치입니다.</p>
-        </div>
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">무릎 ~ 골반 끝 / Knee to Hip</span></div>
-          <input type="number" class="input-main" id="val-knee-hip" placeholder="cm">
-        </div>
-        <button class="save-btn" onclick="saveData(\'knee\')">SAVE</button>
-      </div>
-
-      <div class="input-section" id="section-ankle">
-        <div class="measure-guide-box">
-          <h4 id="guide-ankle-t">종아리 기장</h4>
-          <p id="guide-ankle-p">복숭아뼈부터 무릎 중앙까지 측정하세요. 하이탑이나 숏팬츠 선택 시 중요한 기준이 됩니다.</p>
-        </div>
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">복숭아뼈 ~ 무릎 / Ankle to Knee</span></div>
-          <input type="number" class="input-main" id="val-ankle-knee" placeholder="cm">
-        </div>
-        <button class="save-btn" onclick="saveData(\'ankle\')">SAVE</button>
-      </div>
-
-      <div class="input-section" id="section-foot">
-        <div class="measure-guide-box">
-          <h4 id="guide-foot-t">발 사이즈</h4>
-          <p id="guide-foot-p">운동화나 구두를 살 때 기준이 되는 mm 사이즈를 입력해주세요.</p>
-        </div>
-        <div class="input-group">
-          <div class="label-row"><span class="label-main">발 사이즈 / Foot Size</span></div>
-          <input type="number" class="input-main" id="val-foot" placeholder="mm">
-        </div>
-        <button class="save-btn" onclick="saveData(\'foot\')">SAVE</button>
-      </div>
-    </div>
-
-    <!-- ANALYSIS BUTTON -->
-    <div class="analysis-area">
-      <button class="btn-analyze" id="btn-analyze" onclick="showResult()">
-        <span id="txt-btn-analyze">🔍 GET MY FIT RESULT</span>
-      </button>
-      <p style="font-size:11px; color:#444; text-align:center; margin-top:12px;" id="analyze-hint">모든 치수를 입력하면 분석이 가능합니다.</p>
-    </div>
-  </div>
+<div class="ads-placeholder" style="height: 90px; width: 100%; max-width: 728px;">
+    GOOGLE ADSENSE - TOP BANNER (728x90)
 </div>
 
-<div class="shortcut-hint" id="shortcut-guide">
-  <span><kbd>P</kbd> TONE</span>
-  <span><kbd>1</kbd>-<kbd>6</kbd> PARTS</span>
-  <span><kbd>ENTER</kbd> RESULT</span>
-</div>
-
-<!-- RESULT OVERLAY -->
-<div id="result-overlay">
-  <div class="result-card">
-    <button class="close-result" onclick="document.getElementById('result-overlay').style.display='none'">×</button>
-    <h2 class="result-title" id="res-type-name">ANALYZING...</h2>
-    <div class="result-grid">
-      <div class="result-visual">
-        <svg class="body-type-img" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
-          <path id="svg-body-path" d="M100 50 L140 100 L140 300 L60 300 L60 100 Z" fill="var(--accent)" opacity="0.8"/>
-          <circle cx="100" cy="30" r="20" fill="#fff"/>
-        </svg>
-      </div>
-      <div class="result-info">
-        <h3 id="res-header">핏 분석 결과</h3>
-        <p id="res-desc">데이터를 기반으로 최적의 스타일을 분석 중입니다.</p>
-        <div class="style-tip">
-          <h4 id="tip-header">STYLING TIPS</h4>
-          <ul id="tip-list">
-            <li id="tip-1">상의는 어깨선이 딱 맞는 정핏을 추천합니다.</li>
-            <li id="tip-2">바지는 슬림 스트레이트 핏이 가장 잘 어울립니다.</li>
-          </ul>
+<main class="main-layout">
+    <section class="visual-section">
+        <div class="visual-header">
+            <h1 id="txt-title">PROPORTION OVER HEIGHT</h1>
+            <p id="txt-subtitle">Every body is unique. Find your perfect silhouette through data.</p>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+        
+        <div class="body-box">
+            <svg class="body-svg" viewBox="0 0 200 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="40" r="30" stroke="currentColor" stroke-width="2"/>
+                <rect x="60" y="80" width="80" height="150" rx="10" stroke="currentColor" stroke-width="2"/>
+                <line x1="60" y1="90" x2="20" y2="200" stroke="currentColor" stroke-width="2"/>
+                <line x1="140" y1="90" x2="180" y2="200" stroke="currentColor" stroke-width="2"/>
+                <rect x="65" y="240" width="30" height="200" stroke="currentColor" stroke-width="2"/>
+                <rect x="105" y="240" width="30" height="200" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            
+            <div class="hotspot" id="hs-head" style="top: 10%; left: 50%;" onclick="showForm('head')">P</div>
+            <div class="hotspot" id="hs-shoulder" style="top: 22%; left: 50%;" onclick="showForm('shoulder')">01</div>
+            <div class="hotspot" id="hs-chest" style="top: 38%; left: 50%;" onclick="showForm('chest')">02</div>
+            <div class="hotspot" id="hs-arm" style="top: 45%; left: 15%;" onclick="showForm('arm')">03</div>
+            <div class="hotspot" id="hs-waist" style="top: 55%; left: 50%;" onclick="showForm('waist')">04</div>
+            <div class="hotspot" id="hs-hip" style="top: 65%; left: 50%;" onclick="showForm('hip')">05</div>
+            <div class="hotspot" id="hs-leg" style="top: 85%; left: 35%;" onclick="showForm('leg')">06</div>
+            <div class="hotspot" id="hs-foot" style="top: 96%; left: 35%;" onclick="showForm('foot')">07</div>
+        </div>
+    </section>
 
-<section id="guide" class="info-section">
-  <h2 class="section-title" id="guide-title">MEASUREMENT GUIDE</h2>
-  <div class="info-grid">
-    <div class="info-card">
-      <h3 id="card-1-t">비율이 핏을 결정합니다</h3>
-      <p id="card-1-p">단순히 키와 몸무게만으로는 당신의 실루엣을 알 수 없습니다. 상체와 하체의 비율을 측정하여 쇼핑의 실패를 줄이세요.</p>
+    <aside class="input-panel">
+        <div class="panel-padding">
+            <div id="placeholder-box" style="text-align: center; color: var(--muted); padding-top: 100px;">
+                <p id="txt-guide-msg">Click a point on the model to enter data.</p>
+            </div>
+
+            <div id="form-head" class="form-section">
+                <h3 id="lbl-head-t">Head & Skin</h3>
+                <p id="lbl-head-p">Select your tone and measure head circumference.</p>
+                <div class="input-group">
+                    <label id="lbl-in-head">Head Circumference (cm)</label>
+                    <input type="number" id="in-head" placeholder="e.g. 56">
+                </div>
+                <button class="btn-save" onclick="saveData('head')">SAVE</button>
+            </div>
+
+            <div id="form-shoulder" class="form-section">
+                <h3 id="lbl-shoulder-t">Shoulder</h3>
+                <p id="lbl-shoulder-p">Measure from shoulder tip to shoulder tip.</p>
+                <div class="input-group">
+                    <label id="lbl-in-shoulder">Shoulder Width (cm)</label>
+                    <input type="number" id="in-shoulder" placeholder="e.g. 45">
+                </div>
+                <button class="btn-save" onclick="saveData('shoulder')">SAVE</button>
+            </div>
+
+            <div id="form-chest" class="form-section">
+                <h3 id="lbl-chest-t">Chest</h3>
+                <p id="lbl-chest-p">Measure around the widest part of your chest.</p>
+                <div class="input-group">
+                    <label id="lbl-in-chest">Chest Circumference (cm)</label>
+                    <input type="number" id="in-chest" placeholder="e.g. 95">
+                </div>
+                <button class="btn-save" onclick="saveData('chest')">SAVE</button>
+            </div>
+
+            <div id="form-arm" class="form-section">
+                <h3 id="lbl-arm-t">Arm Length</h3>
+                <p id="lbl-arm-p">From shoulder tip to wrist bone.</p>
+                <div class="input-group">
+                    <label id="lbl-in-arm">Total Arm Length (cm)</label>
+                    <input type="number" id="in-arm" placeholder="e.g. 60">
+                </div>
+                <button class="btn-save" onclick="saveData('arm')">SAVE</button>
+            </div>
+
+            <div id="form-waist" class="form-section">
+                <h3 id="lbl-waist-t">Waist</h3>
+                <p id="lbl-waist-p">Measure around your natural waistline.</p>
+                <div class="input-group">
+                    <label id="lbl-in-waist">Waist (cm or Inch)</label>
+                    <input type="number" id="in-waist" placeholder="e.g. 32">
+                </div>
+                <button class="btn-save" onclick="saveData('waist')">SAVE</button>
+            </div>
+
+            <div id="form-hip" class="form-section">
+                <h3 id="lbl-hip-t">Hip & Pelvis</h3>
+                <p id="lbl-hip-p">Measure around the fullest part of your hips.</p>
+                <div class="input-group">
+                    <label id="lbl-in-hip">Hip Circumference (cm)</label>
+                    <input type="number" id="in-hip" placeholder="e.g. 98">
+                </div>
+                <button class="btn-save" onclick="saveData('hip')">SAVE</button>
+            </div>
+
+            <div id="form-leg" class="form-section">
+                <h3 id="lbl-leg-t">Leg (Inseam)</h3>
+                <p id="lbl-leg-p">From crotch to the bottom of the ankle.</p>
+                <div class="input-group">
+                    <label id="lbl-in-leg">Leg Length (cm)</label>
+                    <input type="number" id="in-leg" placeholder="e.g. 80">
+                </div>
+                <button class="btn-save" onclick="saveData('leg')">SAVE</button>
+            </div>
+
+            <div id="form-foot" class="form-section">
+                <h3 id="lbl-foot-t">Foot Size</h3>
+                <p id="lbl-foot-p">Measure from heel to the longest toe.</p>
+                <div class="input-group">
+                    <label id="lbl-in-foot">Foot Size (mm)</label>
+                    <input type="number" id="in-foot" placeholder="e.g. 270">
+                </div>
+                <button class="btn-save" onclick="saveData('foot')">SAVE</button>
+            </div>
+
+            <div class="ads-placeholder" style="height: 250px; width: 100%; margin-top: 40px;">
+                GOOGLE ADSENSE - SIDEBAR (300x250)
+            </div>
+        </div>
+    </aside>
+</main>
+
+<section class="seo-content">
+    <h2 id="seo-head-title">The Science of Body Proportions</h2>
+    <div class="seo-grid">
+        <div class="info-card">
+            <h3 id="seo-c1-t">Why Data-Driven Fit?</h3>
+            <p id="seo-c1-p">Standard sizing labels (S, M, L) often fail because they don't account for individual proportions. A person with broad shoulders and a slim waist might need a different cut than someone with a narrower frame. FITME uses precise data to define your unique silhouette.</p>
+        </div>
+        <div class="info-card">
+            <h3 id="seo-c2-t">The Golden Ratio</h3>
+            <p id="seo-c2-p">Historically, artists used the 'Golden Ratio' to define beauty. In modern fashion, this translates to the 'Rule of Thirds'. By knowing your vertical and horizontal proportions, you can use clothing to create visual balance and height.</p>
+        </div>
+        <div class="info-card">
+            <h3 id="seo-c3-t">How to Measure Properly?</h3>
+            <p id="seo-c3-p">For the most accurate results, use a flexible tailor's tape. Keep the tape firm but not tight. Always measure while standing naturally in front of a mirror to ensure the tape stays level around your body.</p>
+        </div>
     </div>
-    <div class="info-card">
-      <h3 id="card-2-t">핸드폰 측정 가이드</h3>
-      <p id="card-2-p">일반적인 스마트폰의 세로 길이는 약 15~16cm입니다. 이를 활용해 간편하게 측정해보세요.</p>
-    </div>
-  </div>
 </section>
 
-<section id="privacy" class="policy-section">
-  <div class="policy-content">
-    <h2 id="policy-title" style="color:var(--accent); margin-bottom:30px; font-family:'Bebas Neue'; letter-spacing:2px;">PRIVACY POLICY</h2>
-    <p id="policy-text">FITME는 사용자가 입력한 어떠한 신체 정보도 서버에 저장하지 않습니다. 모든 데이터는 브라우저 세션에만 임시로 존재합니다.</p>
-  </div>
+<section class="legal-section">
+    <div class="legal-grid">
+        <div class="legal-box">
+            <h4 id="leg-privacy-t">Privacy Policy</h4>
+            <p id="leg-privacy-p">Your privacy is our priority. FITME does not store your personal body data on any server. All measurements entered are stored temporarily in your local browser storage and are deleted when you clear your cache. We do not track individual users.</p>
+        </div>
+        <div class="legal-box">
+            <h4 id="leg-terms-t">Terms of Service</h4>
+            <p id="leg-terms-p">The measurements provided by this tool are for informational purposes only. While we strive for accuracy, FITME is not liable for sizing discrepancies in clothing purchased based on these measurements. Use this as a reference guide for your styling journey.</p>
+        </div>
+    </div>
 </section>
 
 <footer>
-  <div class="footer-links">
-    <a href="#top">Home</a>
-    <a href="#guide">Guide</a>
-    <a href="#privacy">Privacy</a>
-  </div>
-  <p>&copy; 2024 FITME. All Rights Reserved.</p>
+    <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="#seo-head-title">Guide</a>
+        <a href="#leg-privacy-t">Privacy</a>
+        <a href="#leg-terms-t">Terms</a>
+    </div>
+    <p>&copy; 2024 FITME Global Proportions. Optimized for Fashion Data.</p>
 </footer>
 
-<div class="toast" id="toast">SAVED</div>
+<div class="toast" id="toast">Data Saved! ✓</div>
 
 <script>
-  let currentLang = 'ko';
-  let filledCount = 0;
-  const totalSteps = 7;
-  const measurements = {};
-
-  const t = {
-    ko: {
-      heroTitle: 'NOT JUST HEIGHT,<br>IT\'S PROPORTION.',
-      heroDesc: '같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.',
-      panelTitle: '측정 시작하기',
-      panelDesc: '인체 모델의 번호를 클릭하세요.',
-      phoneTip: '<strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!',
-      placeholder: '인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.',
-      guideTitle: '측정 가이드',
-      policyTitle: '개인정보처리방침',
-      waistTip: '기성복 바지 사이즈 기준',
-      btnSaveSkin: '피부톤 저장',
-      btnAnalyze: '🔍 나만의 핏 분석하기',
-      analyzeHint: '모든 치수를 입력하면 분석이 가능합니다.',
-      analyzeReady: '분석 준비 완료! 버튼을 눌러주세요.',
-      toast: '저장 완료!',
-      resHeader: '핏 분석 결과',
-      resSubtitle: '데이터 기반 최적의 실루엣'
-    },
-    en: {
-      heroTitle: 'NOT JUST HEIGHT,<br>IT\'S PROPORTION.',
-      heroDesc: 'Same height, different leg length. Find your real proportions beyond standard sizing.',
-      panelTitle: 'START MEASURING',
-      panelDesc: 'Click a number on the body model.',
-      phoneTip: '<strong>No ruler?</strong> A smartphone is about 15-16cm long. Use it to estimate your measurements!',
-      placeholder: 'Click a body part to open input fields.',
-      guideTitle: 'MEASUREMENT GUIDE',
-      policyTitle: 'PRIVACY POLICY',
-      waistTip: 'Based on trouser size',
-      btnSaveSkin: 'SAVE TONE',
-      btnAnalyze: '🔍 GET MY FIT RESULT',
-      analyzeHint: 'Complete all steps to analyze.',
-      analyzeReady: 'Ready to analyze! Click the button.',
-      toast: 'SAVED!',
-      resHeader: 'FIT ANALYSIS RESULT',
-      resSubtitle: 'Optimal silhouette based on your data'
-    },
-    jp: {
-      heroTitle: '身長だけではなく, <br>프로포션입니다.',
-      heroDesc: '같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.',
-      panelTitle: '측정 시작하기',
-      panelDesc: '인체 모델의 번호를 클릭하세요.',
-      phoneTip: '<strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!',
-      placeholder: '인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.',
-      guideTitle: '측정 가이드',
-      policyTitle: '개인정보처리방침',
-      waistTip: '기성복 바지 사이즈 기준',
-      btnSaveSkin: '피부톤 저장',
-      btnAnalyze: '🔍 나만의 핏 분석하기',
-      analyzeHint: '모든 치수를 입력하면 분석이 가능합니다.',
-      analyzeReady: '분석 준비 완료! 버튼을 눌러주세요.',
-      toast: '저장 완료!',
-      resHeader: '핏 분석 결과',
-      resSubtitle: '데이터 기반 최적의 실루엣'
-    },
-    cn: {
-      heroTitle: '不仅是身高, <br>更是比例.',
-      heroDesc: '同样的身高, 腿长도 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.',
-      panelTitle: '측정 시작하기',
-      panelDesc: '인체 모델의 번호를 클릭하세요.',
-      phoneTip: '<strong>자가 없나요?</strong> 스마트폰 세로 길이는 약 <strong>15~16cm</strong>입니다. 핸드폰 몇 개 길이인지로 대략적인 측정이 가능합니다!',
-      placeholder: '인체 도형의 포인트를 클릭하면<br>입력창이 활성화됩니다.',
-      guideTitle: '측정 가이드',
-      policyTitle: '개인정보처리방침',
-      waistTip: '기성복 바지 사이즈 기준',
-      btnSaveSkin: '피부톤 저장',
-      btnAnalyze: '🔍 나만의 핏 분석하기',
-      analyzeHint: '모든 치수를 입력하면 분석이 가능합니다.',
-      analyzeReady: '분석 준비 완료! 버튼을 눌러주세요.',
-      toast: '저장 완료!',
-      resHeader: '핏 분석 결과',
-      resSubtitle: '데이터 기반 최적의 실루엣'
-    }
-  };
-
-  function setLang(lang) {
-    currentLang = lang;
-    document.querySelectorAll(\'.lang-btn\').forEach(btn => {
-      btn.classList.toggle(\'active\', btn.id === \'btn-\' + lang);
-    });
-    const d = t[lang];
-    document.getElementById(\'hero-title\').innerHTML = d.heroTitle;
-    document.getElementById(\'hero-desc\').textContent = d.heroDesc;
-    document.getElementById(\'panel-title\').textContent = d.panelTitle;
-    document.getElementById(\'panel-desc\').textContent = d.panelDesc;
-    document.getElementById(\'phone-tip-text\').innerHTML = d.phoneTip;
-    document.getElementById(\'placeholder-text\').innerHTML = d.placeholder;
-    document.getElementById(\'guide-title\').textContent = d.guideTitle;
-    document.getElementById(\'policy-title\').textContent = d.policyTitle;
-    document.getElementById(\'label-waist-tip\').textContent = d.waistTip;
-    document.getElementById(\'btn-save-skin\').textContent = d.btnSaveSkin;
-    document.getElementById(\'txt-btn-analyze\').textContent = d.btnAnalyze;
-    if (filledCount < totalSteps) document.getElementById(\'analyze-hint\').textContent = d.analyzeHint;
-    else document.getElementById(\'analyze-hint\').textContent = d.analyzeReady;
-  }
-
-  function selectPart(part) {
-    document.querySelectorAll('.input-section').forEach(s => s.classList.remove('active'));
-    document.getElementById('placeholder').style.display = 'none';
-    const section = document.getElementById('section-' + part);
-    if (section) section.classList.add('active');
-    
-    document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
-    const hs = document.getElementById('hs-' + part);
-    if (hs) hs.classList.add('active');
-    
-    document.getElementById('panel-title').textContent = part.toUpperCase() + ' INPUT';
-
-    if (window.innerWidth <= 900) {
-      document.getElementById('input-target').scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  function saveData(part) {
-    const isNew = !measurements[part];
-    measurements[part] = true;
-    if (isNew) {
-      filledCount++;
-      document.getElementById('hs-' + part).classList.add('filled');
-    }
-    if (filledCount >= totalSteps) {
-      const btn = document.getElementById('btn-analyze');
-      btn.classList.add('ready');
-      document.getElementById('analyze-hint').textContent = t[currentLang].analyzeReady;
-      document.getElementById('analyze-hint').style.color = 'var(--accent)';
-    }
-    showToast(t[currentLang].toast);
-  }
-
-  function selectTone(el, tone) {
-    document.querySelectorAll('.tone-circle').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    measurements['skin_val'] = tone;
-  }
-
-  function showResult() {
-    if (filledCount < totalSteps) {
-      showToast(currentLang === 'ko' ? '모든 항목을 입력해주세요!' : 'Please complete all steps!');
-      return;
-    }
-    const overlay = document.getElementById('result-overlay');
-    overlay.style.display = 'flex';
-    
-    // Simple logic
-    const shoulder = document.getElementById('val-shoulder').value;
-    const waist = document.getElementById('val-waist').value;
-    let typeName = currentLang === 'ko' ? "균형 잡힌 체형" : "Balanced Type";
-    let desc = currentLang === 'ko' ? "어깨와 허리의 비율이 조화로운 표준적인 실루엣입니다." : "Your shoulder and waist ratio is well-balanced.";
-    let path = "M100 50 L140 100 L140 300 L60 300 L60 100 Z";
-
-    if (shoulder > 46 && waist < 31) {
-      typeName = "V-Taper Silhouette";
-      desc = currentLang === 'ko' ? "어깨가 넓고 허리가 가는 역삼각형 체형입니다. 상체 근육질 라인을 돋보이게 하는 슬림핏이 베스트입니다." : "Broad shoulders and slim waist. Slim-fit tops will highlight your athletic silhouette.";
-      path = "M100 50 L160 100 L130 300 L70 300 L40 100 Z";
-    }
-
-    document.getElementById('res-type-name').textContent = typeName;
-    document.getElementById('res-desc').textContent = desc;
-    document.getElementById('svg-body-path').setAttribute('d', path);
-  }
-
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  }
-
-  // Keyboard Shortcuts
-  window.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-    
-    const key = e.key.toLowerCase();
-    const keyMap = {
-      'p': 'skin',
-      '1': 'shoulder',
-      '2': 'arm',
-      '3': 'waist',
-      '4': 'knee',
-      '5': 'ankle',
-      '6': 'foot'
+    const i18n = {
+        ko: {
+            title: "키보다 중요한 비율", subtitle: "데이터를 통해 나만의 완벽한 실루엣을 찾으세요.",
+            guideMsg: "모델의 포인트를 클릭하여 수치를 입력하세요.",
+            save: "저장하기", toast: "데이터 저장 완료! ✓",
+            headT: "머리 및 피부톤", headP: "머리 둘레를 측정해 주세요.", inHead: "머리 둘레 (cm)",
+            shT: "어깨 너비", shP: "어깨 끝에서 끝까지의 너비입니다.", inSh: "어깨 너비 (cm)",
+            chT: "가슴 둘레", chP: "가슴의 가장 넓은 부분을 측정하세요.", inCh: "가슴 둘레 (cm)",
+            arT: "팔 길이", arP: "어깨 끝부터 손목 뼈까지의 길이입니다.", inAr: "팔 길이 (cm)",
+            waT: "허리 둘레", waP: "배꼽 근처 가장 얇은 부분을 측정하세요.", inWa: "허리/바지 사이즈",
+            hiT: "골반 및 힙", hiP: "엉덩이의 가장 튀어나온 부분을 측정하세요.", inHi: "골반 둘레 (cm)",
+            leT: "다리 길이", leP: "사타구니부터 발목 아래까지의 길이입니다.", inLe: "다리 기장 (cm)",
+            foT: "발 사이즈", foP: "발뒤꿈치부터 가장 긴 발가락 끝까지입니다.", inFo: "발 사이즈 (mm)",
+            seoT: "신체 비율의 과학", 
+            c1t: "데이터 기반 핏의 중요성", c1p: "기성복 사이즈(S,M,L)는 모든 사람의 비율을 맞추지 못합니다. FITME는 당신만의 데이터를 통해 최적의 실루엣을 정의합니다.",
+            c2t: "패션의 황금비율", c2p: "상체와 하체의 비율을 아는 것만으로도 바지를 올려 입을지, 상의를 넣어 입을지 결정하는 데 큰 도움이 됩니다.",
+            c3t: "정확한 측정 방법", c3p: "거울 앞에서 똑바로 서서 측정하세요. 줄자가 몸에 너무 조이지 않게 수평을 유지하는 것이 중요합니다.",
+            privT: "개인정보처리방침", privP: "FITME는 어떠한 신체 데이터도 서버에 저장하지 않습니다. 모든 데이터는 브라우저에만 임시 저장됩니다.",
+            termT: "이용약관", termP: "본 도구는 참고용입니다. 실제 의류 구매 시 발생하는 사이즈 오차에 대해서는 책임지지 않습니다."
+        },
+        en: {
+            title: "PROPORTION OVER HEIGHT", subtitle: "Every body is unique. Find your perfect silhouette through data.",
+            guideMsg: "Click a point on the model to enter data.",
+            save: "SAVE", toast: "Data Saved! ✓",
+            headT: "Head & Skin", headP: "Measure your head circumference.", inHead: "Head Circ (cm)",
+            shT: "Shoulder", shP: "From shoulder tip to shoulder tip.", inSh: "Shoulder Width (cm)",
+            chT: "Chest", chP: "Measure around the widest part.", inCh: "Chest Circ (cm)",
+            arT: "Arm Length", arP: "From shoulder tip to wrist bone.", inAr: "Arm Length (cm)",
+            waT: "Waist", waP: "Around your natural waistline.", inWa: "Waist (cm/Inch)",
+            hiT: "Hip & Pelvis", hiP: "Around the fullest part of hips.", inHi: "Hip Circ (cm)",
+            leT: "Leg Length", leP: "Inseam length from crotch to ankle.", inLe: "Leg Length (cm)",
+            foT: "Foot Size", foP: "From heel to the longest toe.", inFo: "Foot Size (mm)",
+            seoT: "The Science of Body Proportions",
+            c1t: "Why Data-Driven Fit?", c1p: "Standard sizing fails because it ignores ratios. FITME defines your silhouette with precision.",
+            c2t: "The Golden Ratio", c2p: "Knowing your ratios helps you apply the 'Rule of Thirds' to your daily styling.",
+            c3t: "How to Measure?", c3p: "Stand naturally in front of a mirror. Keep the tape level and firm.",
+            privT: "Privacy Policy", privP: "We do not store data on servers. Everything stays in your browser.",
+            termT: "Terms of Service", termP: "For informational use only. Use as a styling reference guide."
+        },
+        jp: {
+            title: "身長より重要なプロポーション", subtitle: "データを通じて自分だけの完璧なシルエットを見つけましょう。",
+            guideMsg: "モデルのポイントをクリックして数値を入力してください。",
+            save: "保存する", toast: "保存完了！ ✓",
+            headT: "頭部と肌トーン", headP: "頭囲を測定してください。", inHead: "頭囲 (cm)",
+            shT: "肩幅", shP: "肩の両端の長さです。", inSh: "肩幅 (cm)",
+            chT: "胸囲", chP: "胸の最も広い部分を測定してください。", inCh: "胸囲 (cm)",
+            arT: "腕の長さ", arP: "肩から手首までの長さです。", inAr: "腕の長さ (cm)",
+            waT: "ウエスト", waP: "おへそ付近の細い部分を測定してください。", inWa: "ウエストサイズ",
+            hiT: "ヒップ", hiP: "お尻の最も高い部分를 측정하세요.", inHi: "ヒップ囲 (cm)",
+            leT: "脚の長さ", leP: "股下から足首までの長さです。", inLe: "股下 (cm)",
+            foT: "足のサイズ", foP: "かかとからつま先までの長さです。", inFo: "サイズ (mm)",
+            seoT: "身体比率の科学", 
+            c1t: "データの重要性", c1p: "既製服のサイズはすべての人に合うわけではありません。FITMEはあなただけのシルエットを定義します。",
+            c2t: "黄金比", c2p: "比率を知ることで、パンツの丈やトップ스의 인의 식을 정하는 데 도움이 됩니다.",
+            c3t: "測定方法", c3p: "鏡の前でまっすぐ立って測定してください。メジャーを水平に保つことが重要です。",
+            privT: "プライバシーポリシー", privP: "身体データをサーバーに保存することはありません。",
+            termT: "利用規約", termP: "本ツールは参考用です。実際のサイズ誤差については責任を負いかねます。"
+        },
+        cn: {
+            title: "比例重于身高", subtitle: "通过数据找到属于您的完美廓形。",
+            guideMsg: "点击模型上的点以输入数值。",
+            save: "保存", toast: "保存成功！ ✓",
+            headT: "头部与肤色", headP: "请测量您的头围。", inHead: "头围 (cm)",
+            shT: "肩宽", shP: "从左肩峰到右肩峰的宽度。", inSh: "肩宽 (cm)",
+            chT: "胸围", chP: "测量胸部最宽处。", inCh: "胸围 (cm)",
+            arT: "手臂长度", arP: "从肩峰到腕骨的长度。", inAr: "手臂长度 (cm)",
+            waT: "腰围", waP: "测量腰部最细处。", inWa: "腰围/裤子尺码",
+            hiT: "臀部", hiP: "测量臀部最丰满处。", inHi: "臀围 (cm)",
+            leT: "腿长", leP: "从裆部到脚踝的长度。", inLe: "裤长 (cm)",
+            foT: "脚码", foP: "从脚跟到最长脚趾的长度。", inFo: "脚码 (mm)",
+            seoT: "身材比例的科学",
+            c1t: "数据驱动合身的重要性", c1p: "标准尺码(S,M,L)无法适配所有人的比例。FITME通过您的专属数据定义最佳廓形。",
+            c2t: "时尚黄金比例", c2p: "了解身材比例有助于决定是选择高腰裤还是塞衣角，从而打造平衡视觉。",
+            c3t: "如何正确测量？", c3p: "站在镜子前自然放松。保持皮尺水平且贴合身体。",
+            privT: "隐私政策", privP: "FITME不会在服务器上存储任何身体数据。所有数据仅暂存于浏览器。",
+            termT: "服务条款", termP: "本工具仅供参考。对于购买服装时产生的尺寸误差，FITME概不负责。"
+        },
+        es: {
+            title: "PROPORCIÓN SOBRE ALTURA", subtitle: "Cada cuerpo es único. Encuentra tu silueta perfecta a través de los datos.",
+            guideMsg: "Haz clic en un punto del modelo para ingresar datos.",
+            save: "GUARDAR", toast: "¡Datos Guardados! ✓",
+            headT: "Cabeza y Piel", headP: "Mide la circunferencia de tu cabeza.", inHead: "Circ. Cabeza (cm)",
+            shT: "Hombros", shP: "De punta a punta del hombro.", inSh: "Ancho de Hombros (cm)",
+            chT: "Pecho", chP: "Mide alrededor de la parte más ancha.", inCh: "Circ. Pecho (cm)",
+            arT: "Brazo", arP: "Desde la punta del hombro hasta la muñeca.", inAr: "Longitud Brazo (cm)",
+            waT: "Cintura", waP: "Mide alrededor de tu cintura natural.", inWa: "Cintura (cm/pulg)",
+            hiT: "Cadera", hiP: "Alrededor de la parte más ancha de las caderas.", inHi: "Circ. Cadera (cm)",
+            leT: "Pierna", leP: "Desde la entrepierna hasta el tobillo.", inLe: "Longitud Pierna (cm)",
+            foT: "Calzado", foP: "Del talón al dedo más largo.", inFo: "Talla (mm)",
+            seoT: "La Ciencia de las Proporciones",
+            c1t: "¿Por qué un ajuste basado en datos?", c1p: "Las tallas estándar fallan porque ignoran las proporciones. FITME define tu silueta con precisión.",
+            c2t: "La Proporción Áurea", c2p: "Conocer tus proporciones te ayuda a aplicar la 'Regla de los Tercios' en tu estilo diario.",
+            c3t: "¿Cómo medir correctamente?", c3p: "Párate frente a un espejo de forma natural. Mantén la cinta nivelada.",
+            privT: "Privacidad", privP: "No guardamos datos en servidores. Todo permanece en tu navegador.",
+            termT: "Términos", termP: "Solo para uso informativo. Úsalo como guía de referencia."
+        },
+        fr: {
+            title: "PROPORTION AVANT TAILLE", subtitle: "Chaque corps est unique. Trouvez votre silhouette idéale grâce aux données.",
+            guideMsg: "Cliquez sur un point du modèle pour saisir les données.",
+            save: "ENREGISTRER", toast: "Données Sauvegardées ! ✓",
+            headT: "Tête & Peau", headP: "Mesurez votre tour de tête.", inHead: "Tour de tête (cm)",
+            shT: "Épaules", shP: "D'une extrémité de l'épaule à l'autre.", inSh: "Largeur Épaules (cm)",
+            chT: "Poitrine", chP: "Mesurez au point le plus large.", inCh: "Tour de Poitrine (cm)",
+            arT: "Bras", arP: "De l'épaule au poignet.", inAr: "Long. Bras (cm)",
+            waT: "Taille", waP: "Mesurez au creux de la taille.", inWa: "Taille (cm/Pouce)",
+            hiT: "Hanches", hiP: "Au plus large des hanches.", inHi: "Tour de Hanches (cm)",
+            leT: "Jambe", leP: "De l'entrejambe à la cheville.", inLe: "Long. Jambe (cm)",
+            foT: "Pied", foP: "Du talon à l'orteil le plus long.", inFo: "Pointure (mm)",
+            seoT: "Science des Proportions",
+            c1t: "Pourquoi le Fit par Données ?", c1p: "Le S/M/L échoue car il ignore les ratios. FITME définit votre silhouette avec précision.",
+            c2t: "Le Nombre d'Or", c2p: "Connaître vos ratios aide à équilibrer votre silhouette au quotidien.",
+            c3t: "Comment Mesurer ?", c3p: "Tenez-vous droit devant un miroir. Gardez le ruban bien horizontal.",
+            privT: "Confidentialité", privP: "Aucune donnée n'est stockée sur nos serveurs.",
+            termT: "Conditions", termP: "À titre informatif uniquement. Guide de référence."
+        },
+        de: {
+            title: "PROPORTION VOR GRÖSSE", subtitle: "Jeder Körper ist einzigartig. Finden Sie Ihre Silhouette durch Daten.",
+            guideMsg: "Klicken Sie auf ein Körperteil, um Daten einzugeben.",
+            save: "SPEICHERN", toast: "Daten gespeichert! ✓",
+            headT: "Kopf & Haut", headP: "Messen Sie Ihren Kopfumfang.", inHead: "Kopfumfang (cm)",
+            shT: "Schulter", shP: "Von Schulterspitze zu Schulterspitze.", inSh: "Schulterbreite (cm)",
+            chT: "Brust", chP: "An der breitesten Stelle messen.", inCh: "Brustumfang (cm)",
+            arT: "Armlänge", arP: "Von der Schulter zum Handgelenk.", inAr: "Armlänge (cm)",
+            waT: "Taille", waP: "Messen Sie Ihre natürliche Taillenlinie.", inWa: "Taille (cm/Inch)",
+            hiT: "Hüfte", hiP: "An der breitesten Stelle der Hüfte.", inHi: "Hüftumfang (cm)",
+            leT: "Beinlänge", leP: "Vom Schritt bis zum Knöchel.", inLe: "Beinlänge (cm)",
+            foT: "Fußgröße", foP: "Von der Ferse bis zum längsten Zeh.", inFo: "Größe (mm)",
+            seoT: "Körperproportionen",
+            c1t: "Warum datenbasiert?", c1p: "Standardgrößen ignorieren Proportionen. FITME definiert Ihre Silhouette präzise.",
+            c2t: "Der Goldene Schnitt", c2p: "Ihre Verhältnisse helfen Ihnen beim täglichen Styling.",
+            c3t: "Richtig messen", c3p: "Stehen Sie natürlich vor einem Spiegel. Halten Sie das Maßband waagerecht.",
+            privT: "Datenschutz", privP: "Wir speichern keine Daten auf Servern.",
+            termT: "AGB", termP: "Nur zur Information. Als Referenz verwenden."
+        },
+        ru: {
+            title: "ПРОПОРЦИИ ВАЖНЕЕ РОСТА", subtitle: "Каждое тело уникально. Найдите свой идеальный силуэт с помощью данных.",
+            guideMsg: "Нажмите на точку на модели, чтобы ввести данные.",
+            save: "СОХРАНИТЬ", toast: "Данные сохранены! ✓",
+            headT: "Голова и кожа", headP: "Измерьте обхват головы.", inHead: "Обхват головы (см)",
+            shT: "Плечи", shP: "От края до края плеча.", inSh: "Ширина плеч (см)",
+            chT: "Грудь", chP: "Измерьте в самом широком месте.", inCh: "Обхват груди (см)",
+            arT: "Рука", arP: "От края плеча до запястья.", inAr: "Длина руки (см)",
+            waT: "Талия", waP: "Измерьте на уровне естественной талии.", inWa: "Талия (см/дюйм)",
+            hiT: "Бедра", hiP: "В самой широкой части бедер.", inHi: "Обхват бедер (см)",
+            leT: "Нога", leP: "От паха до щиколотки.", inLe: "Длина ноги (см)",
+            foT: "Стопа", foP: "От пятки до кончика самого длинного пальца.", inFo: "Размер (мм)",
+            seoT: "Наука пропорций",
+            c1t: "Почему важны данные?", c1p: "Стандартные размеры часто не подходят. FITME точно определяет ваш силуэт.",
+            c2t: "Золотое сечение", c2p: "Знание пропорций помогает сбалансировать образ.",
+            c3t: "Как мерить?", c3p: "Стойте прямо перед зеркалом. Держите ленту горизонтально.",
+            privT: "Приватность", privP: "Мы не храним данные на серверах.",
+            termT: "Условия", termP: "Только для информации."
+        },
+        it: {
+            title: "PROPORZIONE OLTRE L'ALTEZZA", subtitle: "Ogni corpo è unico. Trova la tua silhouette perfetta tramite i dati.",
+            guideMsg: "Clicca su un punto per inserire i dati.",
+            save: "SALVA", toast: "Dati Salvati! ✓",
+            headT: "Testa & Pelle", headP: "Misura la circonferenza della testa.", inHead: "Circ. Testa (cm)",
+            shT: "Spalle", shP: "Da un'estremità all'altra della spalla.", inSh: "Larghezza Spalle (cm)",
+            chT: "Torace", chP: "Misura nel punto più largo.", inCh: "Circ. Torace (cm)",
+            arT: "Braccio", arP: "Dalla spalla al polso.", inAr: "Lung. Braccio (cm)",
+            waT: "Vita", waP: "Misura nel punto più stretto.", inWa: "Vita (cm/Inch)",
+            hiT: "Fianchi", hiP: "Nel punto più largo dei fianchi.", inHi: "Circ. Fianchi (cm)",
+            leT: "Gamba", leP: "Dal cavallo alla caviglia.", inLe: "Lung. Gamba (cm)",
+            foT: "Piede", foP: "Dal tallone al dito più lungo.", inFo: "Misura (mm)",
+            seoT: "Scienza delle Proporzioni",
+            c1t: "Perché il Fit basato sui Dati?", c1p: "Le taglie standard falliscono. FITME definisce la tua silhouette con precisione.",
+            c2t: "La Sezione Aurea", c2p: "Conoscere i tuoi rapporti aiuta nel tuo styling quotidiano.",
+            c3t: "Come Misurare?", c3p: "Resta naturale davanti a uno specchio. Tieni il metro livellato.",
+            privT: "Privacy", privP: "Non salviamo dati sui server.",
+            termT: "Termini", termP: "Solo a scopo informativo."
+        },
+        pt: {
+            title: "PROPORÇÃO ACIMA DA ALTURA", subtitle: "Cada corpo é único. Encontre sua silhueta perfeita através dos dados.",
+            guideMsg: "Clique em um ponto do modelo para inserir os dados.",
+            save: "SALVAR", toast: "Dados Salvos! ✓",
+            headT: "Cabeça & Pele", headP: "Meça a circunferência da sua cabeça.", inHead: "Circ. Cabeça (cm)",
+            shT: "Ombro", shP: "De ponta a ponta do ombro.", inSh: "Largura Ombro (cm)",
+            chT: "Peito", chP: "Meça na parte mais larga.", inCh: "Circ. Peito (cm)",
+            arT: "Braço", arP: "Do ombro ao pulso.", inAr: "Comp. Braço (cm)",
+            waT: "Cintura", waP: "Meça na sua cintura natural.", inWa: "Cintura (cm/Pol)",
+            hiT: "Quadril", hiP: "Na parte mais larga dos quadris.", inHi: "Circ. Quadril (cm)",
+            leT: "Perna", leP: "Da virilha ao tornozelo.", inLe: "Comp. Perna (cm)",
+            foT: "Pé", foP: "Do calcanhar ao dedo mais longo.", inFo: "Tamanho (mm)",
+            seoT: "Ciência das Proporções",
+            c1t: "Por que dados?", c1p: "Tamanhos padrão falham. FITME define sua silhueta com precisão.",
+            c2t: "Proporção Áurea", c2p: "Conhecer seus ratios ajuda no styling diário.",
+            c3t: "Como Medir?", c3p: "Fique natural na frente de um espelho. Mantenha a fita nivelada.",
+            privT: "Privacidade", privP: "Não guardamos dados em servidores.",
+            termT: "Termos", termP: "Apenas informativo."
+        },
+        hi: {
+            title: "ऊंचाई से अधिक अनुपात", subtitle: "हर शरीर अद्वितीय है। डेटा के माध्यम से अपनी सही सिल्हूट खोजें।",
+            guideMsg: "डेटा दर्ज करने के लिए मॉडल पर एक बिंदु पर क्लिक करें।",
+            save: "सहेजें", toast: "डेटा सहेजा गया! ✓",
+            headT: "सिर और त्वचा", headP: "अपने सिर की परिधि मापें।", inHead: "सिर की परिधि (cm)",
+            shT: "कंधा", shP: "कंधे की नोक से कंधे की नोक तक।", inSh: "कंधे की चौड़ाई (cm)",
+            chT: "छाती", chP: "सबसे चौड़े हिस्से को मापें।", inCh: "छाती की परिधि (cm)",
+            arT: "हाथ", arP: "कंधे से कलाई तक।", inAr: "हाथ की लंबाई (cm)",
+            waT: "कमर", waP: "अपनी प्राकृतिक कमर मापें।", inWa: "कमर (cm/इंच)",
+            hiT: "कूल्हा", hiP: "कूल्हों के सबसे चौड़े हिस्से के आसपास।", inHi: "कूल्हे की परिधि (cm)",
+            leT: "पैर", leP: "कमर से टखने तक।", inLe: "पैर की लंबाई (cm)",
+            foT: "पैर का आकार", foP: "एड़ी से सबसे लंबी उंगली तक।", inFo: "आकार (mm)",
+            seoT: "अनुपात का विज्ञान",
+            c1t: "डेटा महत्वपूर्ण क्यों है?", c1p: "मानक आकार विफल होते हैं। FITME आपके सिल्हूट को सटीक रूप से परिभाषित करता है।",
+            c2t: "गोल्डन रेशियो", c2p: "अपने अनुपात को जानने से स्टाइलिंग में मदद मिलती है।",
+            c3t: "कैसे मापें?", c3p: "दर्पण के सामने खड़े हों। टेप को सीधा रखें।",
+            privT: "गोपनीयता", privP: "हम सर्वर पर डेटा स्टोर नहीं करते हैं।",
+            termT: "शर्तें", termP: "केवल जानकारी के लिए।"
+        },
+        ar: {
+            title: "التناسب فوق الطول", subtitle: "كل جسم فريد من نوعه. اعثر على قوامك المثالي من خلال البيانات.",
+            guideMsg: "انقر فوق نقطة في النموذج لإدخال البيانات.",
+            save: "حفظ", toast: "تم حفظ البيانات! ✓",
+            headT: "الرأس والجلد", headP: "قس محيط رأسك.", inHead: "محيط الرأس (سم)",
+            shT: "الكتف", shP: "من طرف الكتف إلى طرف الكتف.", inSh: "عرض الكتف (سم)",
+            chT: "الصدر", chP: "قس حول الجزء الأعرض.", inCh: "محيط الصدر (سم)",
+            arT: "الذراع", arP: "من طرف الكتف إلى الرسغ.", inAr: "طول الذراع (سم)",
+            waT: "الخصر", waP: "قس حول خط خصرك الطبيعي.", inWa: "الخصر (سم/بوصة)",
+            hiT: "الورك", hiP: "حول الجزء الأكمل من الأرداف.", inHi: "محيط الورك (سم)",
+            leT: "الساق", leP: "من الفخذ إلى الكاحل.", inLe: "طول الساق (سم)",
+            foT: "مقاس القدم", foP: "من الكعب إلى أطول إصبع.", inFo: "المقاس (مم)",
+            seoT: "علم التناسب",
+            c1t: "لماذا القياس بالبيانات؟", c1p: "المقاسات القياسية تفشل. FITME يحدد قوامك بدقة.",
+            c2t: "النسبة الذهبية", c2p: "معرفة نسبك تساعد في تنسيق ملابسك اليومية.",
+            c3t: "كيف تقيس؟", c3p: "قف أمام المرآة بشكل طبيعي. حافظ على الشريط مستوياً.",
+            privT: "الخصوصية", privP: "نحن لا نخزن البيانات على الخوادم.",
+            termT: "الشروط", termP: "للمعلومات فقط."
+        },
+        vi: {
+            title: "TỶ LỆ QUAN TRỌNG HƠN CHIỀU CAO", subtitle: "Mỗi cơ thể là duy nhất. Tìm kiếm vóc dáng hoàn hảo của bạn qua dữ liệu.",
+            guideMsg: "Nhấp vào một điểm trên mô hình để nhập dữ liệu.",
+            save: "LƯU", toast: "Đã lưu dữ liệu! ✓",
+            headT: "Đầu & Da", headP: "Đo chu vi vòng đầu của bạn.", inHead: "Vòng đầu (cm)",
+            shT: "Vai", shP: "Từ đầu vai này sang đầu vai kia.", inSh: "Chiều rộng vai (cm)",
+            chT: "Ngực", chP: "Đo quanh phần rộng nhất của ngực.", inCh: "Vòng ngực (cm)",
+            arT: "Tay", arP: "Từ đầu vai đến cổ tay.", inAr: "Chiều dài tay (cm)",
+            waT: "Eo", waP: "Đo quanh vòng eo tự nhiên của bạn.", inWa: "Vòng eo (cm/Inch)",
+            hiT: "Mông", hiP: "Đo quanh phần nở nhất của mông.", inHi: "Vòng mông (cm)",
+            leT: "Chân", leP: "Từ háng đến mắt cá chân.", inLe: "Chiều dài chân (cm)",
+            foT: "Cỡ chân", foP: "Từ gót chân đến ngón dài nhất.", inFo: "Kích thước (mm)",
+            seoT: "Khoa học về Tỷ lệ",
+            c1t: "Tại sao cần dữ liệu?", c1p: "Kích cỡ chuẩn thường không khớp. FITME xác định vóc dáng bạn chính xác.",
+            c2t: "Tỷ lệ Vàng", c2p: "Biết tỷ lệ giúp bạn phối đồ cân đối hơn mỗi ngày.",
+            c3t: "Cách đo?", c3p: "Đứng tự nhiên trước gương. Giữ thước dây nằm ngang.",
+            privT: "Bảo mật", privP: "Chúng tôi không lưu dữ liệu trên máy chủ.",
+            termT: "Điều khoản", termP: "Chỉ mang tính tham khảo."
+        },
+        th: {
+            title: "สัดส่วนสำคัญกว่าความสูง", subtitle: "ร่างกายทุกคนมีเอกลักษณ์ ค้นหารูปร่างที่สมบูรณ์แบบผ่านข้อมูล",
+            guideMsg: "คลิกที่จุดบนแบบจำลองเพื่อป้อนข้อมูล",
+            save: "บันทึก", toast: "บันทึกข้อมูลแล้ว! ✓",
+            headT: "ศีรษะและผิว", headP: "วัดรอบศีรษะของคุณ", inHead: "รอบศีรษะ (ซม.)",
+            shT: "ไหล่", shP: "จากปลายไหล่ด้านหนึ่งไปอีกด้านหนึ่ง", inSh: "ความกว้างไหล่ (ซม.)",
+            chT: "หน้าอก", chP: "วัดส่วนที่กว้างที่สุดของหน้าอก", inCh: "รอบอก (ซม.)",
+            arT: "แขน", arP: "จากปลายไหล่ถึงข้อมือ", inAr: "ความยาวแขน (ซม.)",
+            waT: "เอว", waP: "วัดรอบเอวธรรมชาติของคุณ", inWa: "รอบเอว (ซม./นิ้ว)",
+            hiT: "สะโพก", hiP: "วัดส่วนที่กว้างที่สุดของสะโพก", inHi: "รอบสะโพก (ซม.)",
+            leT: "ขา", leP: "จากเป้าถึงข้อเท้า", inLe: "ความยาวขา (ซม.)",
+            foT: "ขนาดเท้า", foP: "จากส้นเท้าถึงปลายนิ้วที่ยาวที่สุด", inFo: "ขนาด (มม.)",
+            seoT: "ศาสตร์แห่งสัดส่วน",
+            c1t: "ทำไมต้องใช้ข้อมูล?", c1p: "ไซส์มาตรฐานมักไม่พอดี FITME นิยามรูปร่างของคุณอย่างแม่นยำ",
+            c2t: "สัดส่วนทองคำ", c2p: "การรู้สัดส่วนช่วยให้คุณแต่งตัวได้อย่างสมดุลในทุกวัน",
+            c3t: "วัดอย่างไร?", c3p: "ยืนหน้ากระจกตามธรรมชาติ รักษาแนวสายวัดให้ขนานกับพื้น",
+            privT: "ความเป็นส่วนตัว", privP: "เราไม่เก็บข้อมูลบนเซิร์ฟเวอร์",
+            termT: "เงื่อนไข", termP: "เพื่อการอ้างอิงเท่านั้น"
+        },
+        id: {
+            title: "PROPORSI DI ATAS TINGGI BADAN", subtitle: "Setiap tubuh unik. Temukan siluet sempurna Anda melalui data.",
+            guideMsg: "Klik titik pada model untuk memasukkan data.",
+            save: "SIMPAN", toast: "Data Tersimpan! ✓",
+            headT: "Kepala & Kulit", headP: "Ukur lingkar kepala Anda.", inHead: "Lingkar Kepala (cm)",
+            shT: "Bahu", shP: "Dari ujung bahu ke ujung bahu.", inSh: "Lebar Bahu (cm)",
+            chT: "Dada", chP: "Ukur di bagian dada yang paling lebar.", inCh: "Lingkar Dada (cm)",
+            arT: "Lengan", arP: "Dari ujung bahu ke pergelangan tangan.", inAr: "Panjang Lengan (cm)",
+            waT: "Pinggang", waP: "Ukur di lingkar pinggang alami Anda.", inWa: "Pinggang (cm/Inch)",
+            hiT: "Pinggul", hiP: "Di bagian pinggul yang paling lebar.", inHi: "Lingkar Pinggul (cm)",
+            leT: "Kaki", leP: "Dari selangkangan hingga pergelangan kaki.", inLe: "Panjang Kaki (cm)",
+            foT: "Ukuran Kaki", foP: "Dari tumit ke jari kaki terpanjang.", inFo: "Ukuran (mm)",
+            seoT: "Sains Proporsi Tubuh",
+            c1t: "Mengapa Fit Berbasis Data?", c1p: "Ukuran standar sering gagal. FITME mendefinisikan siluet Anda dengan presisi.",
+            c2t: "Rasio Emas", c2p: "Mengetahui rasio Anda membantu dalam styling harian.",
+            c3t: "Cara Mengukur?", c3p: "Berdiri alami di depan cermin. Jaga pita pengukur tetap rata.",
+            privT: "Privasi", privP: "Kami tidak menyimpan data di server.",
+            termT: "Ketentuan", termP: "Hanya untuk informasi."
+        }
     };
 
-    if (keyMap[key]) {
-      e.preventDefault();
-      selectPart(keyMap[key]);
-      showToast(keyMap[key].toUpperCase() + ' SELECTED');
-    } else if (key === 'enter') {
-      showResult();
+    function changeLang(lang) {
+        const t = i18n[lang] || i18n['en'];
+        document.documentElement.lang = lang;
+        
+        document.getElementById('txt-title').textContent = t.title;
+        document.getElementById('txt-subtitle').textContent = t.subtitle;
+        document.getElementById('txt-guide-msg').textContent = t.guideMsg;
+        document.getElementById('toast').textContent = t.toast;
+        document.querySelectorAll('.btn-save').forEach(b => b.textContent = t.save);
+
+        document.getElementById('lbl-head-t').textContent = t.headT;
+        document.getElementById('lbl-head-p').textContent = t.headP;
+        document.getElementById('lbl-in-head').textContent = t.inHead;
+
+        document.getElementById('lbl-shoulder-t').textContent = t.shT;
+        document.getElementById('lbl-shoulder-p').textContent = t.shP;
+        document.getElementById('lbl-in-shoulder').textContent = t.inSh;
+
+        document.getElementById('lbl-chest-t').textContent = t.chT;
+        document.getElementById('lbl-chest-p').textContent = t.chP;
+        document.getElementById('lbl-in-chest').textContent = t.inCh;
+
+        document.getElementById('lbl-arm-t').textContent = t.arT;
+        document.getElementById('lbl-arm-p').textContent = t.arP;
+        document.getElementById('lbl-in-arm').textContent = t.inAr;
+
+        document.getElementById('lbl-waist-t').textContent = t.waT;
+        document.getElementById('lbl-waist-p').textContent = t.waP;
+        document.getElementById('lbl-in-waist').textContent = t.inWa;
+
+        document.getElementById('lbl-hip-t').textContent = t.hiT;
+        document.getElementById('lbl-hip-p').textContent = t.hiP;
+        document.getElementById('lbl-in-hip').textContent = t.inHi;
+
+        document.getElementById('lbl-leg-t').textContent = t.leT;
+        document.getElementById('lbl-leg-p').textContent = t.leP;
+        document.getElementById('lbl-in-leg').textContent = t.inLe;
+
+        document.getElementById('lbl-foot-t').textContent = t.foT;
+        document.getElementById('lbl-foot-p').textContent = t.foP;
+        document.getElementById('lbl-in-foot').textContent = t.inFo;
+
+        document.getElementById('seo-head-title').textContent = t.seoT;
+        document.getElementById('seo-c1-t').textContent = t.c1t;
+        document.getElementById('seo-c1-p').textContent = t.c1p;
+        document.getElementById('seo-c2-t').textContent = t.c2t;
+        document.getElementById('seo-c2-p').textContent = t.c2p;
+        document.getElementById('seo-c3-t').textContent = t.c3t;
+        document.getElementById('seo-c3-p').textContent = t.c3p;
+
+        document.getElementById('leg-privacy-t').textContent = t.privT;
+        document.getElementById('leg-privacy-p').textContent = t.privP;
+        document.getElementById('leg-terms-t').textContent = t.termT;
+        document.getElementById('leg-terms-p').textContent = t.termP;
     }
-  });
+
+    function showForm(part) {
+        document.getElementById('placeholder-box').style.display = 'none';
+        document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+        document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+        
+        document.getElementById('form-' + part).classList.add('active');
+        document.getElementById('hs-' + part).classList.add('active');
+    }
+
+    function saveData(part) {
+        document.getElementById('hs-' + part).classList.add('filled');
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    changeLang('ko');
 </script>
+
 </body>
 </html>
- 
