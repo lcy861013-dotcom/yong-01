@@ -97,7 +97,7 @@
   .hotspot.filled { border-color: #47ff8a; color: #47ff8a; }
 
   /* RIGHT: FORM */
-  .form-panel { background: var(--surface); display: flex; flex-direction: column; overflow-y: auto; }
+  .form-panel { background: var(--surface); display: flex; flex-direction: column; overflow-y: auto; scroll-margin-top: 73px; }
   .panel-top { padding: 40px; border-bottom: 1px solid var(--border); }
   .panel-top h2 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; }
   .panel-top p { font-size: 12px; color: #555; margin-top: 4px; }
@@ -148,16 +148,19 @@
 
   @media (max-width: 900px) {
     .main-container { grid-template-columns: 1fr; }
-    .visualizer { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 20px; }
-    .hero-text { position: relative; top: 0; left: 0; text-align: center; margin-bottom: 30px; }
+    .visualizer { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 20px; min-height: 550px; }
+    .hero-text { position: relative; top: 0; left: 0; text-align: center; margin-bottom: 20px; }
+    .hero-text h1 { font-size: 32px; }
+    .body-box { width: 260px; height: 450px; }
     .info-grid { grid-template-columns: 1fr; }
     nav { display: none; }
+    .form-panel { scroll-margin-top: 0px; }
   }
 </style>
 </head>
 <body>
 
-<header>
+<header id="top">
   <a href="#" class="logo">FIT<span>ME</span></a>
   <nav>
     <a href="#app" class="nav-measure">MEASURE</a>
@@ -202,7 +205,7 @@
   </div>
 
   <!-- RIGHT FORM -->
-  <div class="form-panel">
+  <div class="form-panel" id="input-target">
     <div class="panel-top">
       <h2 id="panel-title">START MEASURING</h2>
       <p id="panel-desc">왼쪽 인체 모델의 번호를 클릭하세요.</p>
@@ -291,8 +294,8 @@
       <p id="card-1-p">단순히 키와 몸무게만으로는 당신의 실루엣을 알 수 없습니다. 상체와 하체의 비율, 종아리와 허벅지의 비례를 측정하여 기성복 쇼핑의 실패를 줄이세요.</p>
     </div>
     <div class="info-card">
-      <h3 id="card-2-t">핸드폰 측정 가이드</h3>
-      <p id="card-2-p">자가 없어도 괜찮습니다. 일반적인 스마트폰의 세로 길이는 약 15~16cm입니다. 손가락 한 뼘(약 18~20cm)이나 핸드폰 길이를 활용해 간편하게 측정해보세요.</p>
+      <h3>스마트폰 가이드</h3>
+      <p>자가 없을 땐 핸드폰 세로 길이(약 15.5cm)를 한 마디로 생각하고 측정해보세요. 보다 간편하게 자신의 사이즈를 기록할 수 있습니다.</p>
     </div>
   </div>
 </section>
@@ -310,7 +313,7 @@
 
 <footer>
   <div class="footer-links">
-    <a href="#app">Home</a>
+    <a href="#top">Home</a>
     <a href="#guide">Guide</a>
     <a href="#privacy">Privacy</a>
   </div>
@@ -323,7 +326,7 @@
   let currentLang = 'ko';
   const t = {
     ko: {
-      heroTitle: 'NOT JUST HEIGHT,\nIT\'S PROPORTION.',
+      heroTitle: 'NOT JUST HEIGHT,<br>IT\'S PROPORTION.',
       heroDesc: '같은 키라도 다리 길이는 다릅니다. 기성복이 아닌 당신의 진짜 비율을 찾아보세요.',
       panelTitle: '측정 시작하기',
       panelDesc: '인체 모델의 번호를 클릭하세요.',
@@ -340,7 +343,7 @@
       heroDesc: 'Same height, different leg length. Find your real proportions beyond standard sizing.',
       panelTitle: 'START MEASURING',
       panelDesc: 'Click a number on the body model.',
-      phoneTip: '<strong>No ruler?</strong> A smartphone is about <strong>15-16cm</strong> long. Use it to estimate your measurements!',
+      phoneTip: '<strong>No ruler?</strong> A smartphone is about 15-16cm long. Use it to estimate your measurements!',
       placeholder: 'Click a body part to open input fields.',
       guideTitle: 'MEASUREMENT GUIDE',
       policyTitle: 'PRIVACY POLICY',
@@ -356,7 +359,7 @@
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     
     const d = t[lang];
-    document.getElementById('hero-title').innerHTML = d.heroTitle.replace('\n', '<br>');
+    document.getElementById('hero-title').innerHTML = d.heroTitle;
     document.getElementById('hero-desc').textContent = d.heroDesc;
     document.getElementById('panel-title').textContent = d.panelTitle;
     document.getElementById('panel-desc').textContent = d.panelDesc;
@@ -375,6 +378,21 @@
     document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
     document.getElementById('hs-' + part).classList.add('active');
     document.getElementById('panel-title').textContent = part.toUpperCase() + ' INPUT';
+
+    // 모바일 자동 스크롤 로직 추가
+    if (window.innerWidth <= 900) {
+      const target = document.getElementById('input-target');
+      const offset = 10; // 여백
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = target.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   }
 
   function selectTone(el, tone) {
@@ -385,6 +403,9 @@
   function saveData(part) {
     showToast(t[currentLang].toast);
     document.getElementById('hs-' + part).classList.add('filled');
+    
+    // 저장 후 다시 인체 모델로 스크롤 이동 (선택 사항)
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function showToast(msg) {
