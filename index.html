@@ -184,8 +184,12 @@
   </nav>
   <div class="header-right">
     <div class="lang-toggle">
+
+      <div style="padding: 0 4px 0 8px; display: flex; align-items: center; color: var(--muted);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
       <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko">KO</button>
       <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+      <button class="lang-btn" onclick="setLang('jp')" id="btn-jp">JP</button>
+      <button class="lang-btn" onclick="setLang('cn')" id="btn-cn">CN</button>
     </div>
   </div>
 </header>
@@ -408,27 +412,64 @@
       toast: 'SAVED!',
       resHeader: 'FIT ANALYSIS RESULT',
       resSubtitle: 'Optimal silhouette based on your data'
+    },
+    jp: {
+      heroTitle: '身長だけではなく、<br>プロポーションです。',
+      heroDesc: '同じ身長でも脚の長さは違います。既製品ではなく、あなたの本当の比率を見つけてください。',
+      panelTitle: '測定を開始',
+      panelDesc: '人体モデルの番号をクリックしてください。',
+      phoneTip: '<strong>定規がありませんか？</strong> スマートフォンの縦の長さは約<strong>15〜16cm</strong>です。スマホ何個分かで大まかな測定が可能です！',
+      placeholder: '人体図形のポイントをクリックすると、<br>入力欄が有効になります。',
+      guideTitle: '測定ガイド',
+      policyTitle: '個人情報保護方針',
+      waistTip: '既製服のパンツサイズ基準',
+      btnSaveSkin: '肌のトーンを保存',
+      btnAnalyze: '🔍 自分だけのフィット分析',
+      analyzeHint: 'すべての数値を入力すると分析が可能です。',
+      analyzeReady: '分析準備完了！ボタンを押してください。',
+      toast: '保存完了！',
+      resHeader: 'フィット分析結果',
+      resSubtitle: 'データに基づく最適なシルエット'
+    },
+    cn: {
+      heroTitle: '不仅是身高，<br>更是比例。',
+      heroDesc: '同样的身高，腿长也不同。寻找您真实的比例，而不仅仅是成衣尺寸。',
+      panelTitle: '开始测量',
+      panelDesc: '点击人体模型上的编号。',
+      phoneTip: '<strong>没有尺子？</strong> 智能手机的长度约为 <strong>15~16cm</strong>。可以通过手机长度进行大致测量！',
+      placeholder: '点击人体部位以打开输入框。',
+      guideTitle: '测量指南',
+      policyTitle: '隐私政策',
+      waistTip: '基于成衣裤子尺码',
+      btnSaveSkin: '保存肤色',
+      btnAnalyze: '🔍 获取我的分析结果',
+      analyzeHint: '完成所有步骤即可分析。',
+      analyzeReady: '准备好分析了！请点击按钮。',
+      toast: '已保存！',
+      resHeader: '体型分析结果',
+      resSubtitle: '基于数据的最佳轮廓'
     }
   };
 
   function setLang(lang) {
     currentLang = lang;
-    document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.querySelectorAll(\'.lang-btn\').forEach(btn => {
+      btn.classList.toggle(\'active\', btn.id === \'btn-\' + lang);
+    });
     const d = t[lang];
-    document.getElementById('hero-title').innerHTML = d.heroTitle;
-    document.getElementById('hero-desc').textContent = d.heroDesc;
-    document.getElementById('panel-title').textContent = d.panelTitle;
-    document.getElementById('panel-desc').textContent = d.panelDesc;
-    document.getElementById('phone-tip-text').innerHTML = d.phoneTip;
-    document.getElementById('placeholder-text').innerHTML = d.placeholder;
-    document.getElementById('guide-title').textContent = d.guideTitle;
-    document.getElementById('policy-title').textContent = d.policyTitle;
-    document.getElementById('label-waist-tip').textContent = d.waistTip;
-    document.getElementById('btn-save-skin').textContent = d.btnSaveSkin;
-    document.getElementById('txt-btn-analyze').textContent = d.btnAnalyze;
-    if (filledCount < totalSteps) document.getElementById('analyze-hint').textContent = d.analyzeHint;
-    else document.getElementById('analyze-hint').textContent = d.analyzeReady;
+    document.getElementById(\'hero-title\').innerHTML = d.heroTitle;
+    document.getElementById(\'hero-desc\').textContent = d.heroDesc;
+    document.getElementById(\'panel-title\').textContent = d.panelTitle;
+    document.getElementById(\'panel-desc\').textContent = d.panelDesc;
+    document.getElementById(\'phone-tip-text\').innerHTML = d.phoneTip;
+    document.getElementById(\'placeholder-text\').innerHTML = d.placeholder;
+    document.getElementById(\'guide-title\').textContent = d.guideTitle;
+    document.getElementById(\'policy-title\').textContent = d.policyTitle;
+    document.getElementById(\'label-waist-tip\').textContent = d.waistTip;
+    document.getElementById(\'btn-save-skin\').textContent = d.btnSaveSkin;
+    document.getElementById(\'txt-btn-analyze\').textContent = d.btnAnalyze;
+    if (filledCount < totalSteps) document.getElementById(\'analyze-hint\').textContent = d.analyzeHint;
+    else document.getElementById(\'analyze-hint\').textContent = d.analyzeReady;
   }
 
   function selectPart(part) {
